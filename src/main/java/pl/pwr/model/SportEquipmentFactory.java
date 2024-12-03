@@ -1,4 +1,4 @@
-package pl.pwr.model.done;
+package pl.pwr.model;
 
 public class SportEquipmentFactory implements EquipmentFactory {
 

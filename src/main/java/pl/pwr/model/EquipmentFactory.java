@@ -1,4 +1,4 @@
-package pl.pwr.model.done;
+package pl.pwr.model;
 
 public interface EquipmentFactory   {
     Equipment createBike(String name, String description, double pricePerDay, int gearCount);

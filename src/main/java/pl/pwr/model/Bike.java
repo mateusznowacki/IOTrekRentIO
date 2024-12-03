@@ -1,4 +1,6 @@
-package pl.pwr.model.done;
+package pl.pwr.model;
+
+import java.util.Objects;
 
 public class Bike extends Equipment{
     private int gearCount;
@@ -21,4 +23,16 @@ public class Bike extends Equipment{
                 ", gearCount=" + gearCount +
                 '}';
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Bike bike = (Bike) o;
+//        return gearCount == bike.gearCount;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hashCode(gearCount);
+//    }
 }

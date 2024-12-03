@@ -1,4 +1,4 @@
-package pl.pwr.model.done;
+package pl.pwr.model;
 
 import java.util.Date;
 
@@ -6,6 +6,7 @@ public class Rental {
     private static int idCounter = 0;
 
     private int id;
+    private int userId;
     private Equipment equipment;
     private Date startDate;
     private Date endDate;
@@ -19,10 +20,31 @@ public class Rental {
         this.costStrategy = costStrategy;
     }
 
+
+    public Rental(Equipment equipment, Date startDate, Date endDate, RentalCostStrategy costStrategy,int userId) {
+        this.id = ++idCounter;
+        this.equipment = equipment;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.costStrategy = costStrategy;
+        this.userId = userId;
+    }
+
+
+
+
     public double calculateCost() {
         long diffInMillies = endDate.getTime() - startDate.getTime();
         int days = (int) (diffInMillies / (1000 * 60 * 60 * 24));
         return costStrategy.calculateCost(days, equipment.getPricePerDay());
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     // Gettery
@@ -40,5 +62,12 @@ public class Rental {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public void extendRental(int days) {
+    }
+
+    public String getDays() {
+        return "";
     }
 }
