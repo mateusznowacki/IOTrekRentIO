@@ -1,7 +1,6 @@
 package pl.pwr.view;
 
 import pl.pwr.controller.AddEquipmentController;
-import pl.pwr.model.Equipment;
 
 import java.util.Scanner;
 
@@ -13,9 +12,8 @@ public class AddEquipmentView {
         this.addEquipmentController = addEquipmentController;
     }
 
-    public void displayAddEquipmentForm() {
-        System.out.println("\n=== DODAWANIE NOWEGO SPRZĘTU ===");
-
+    // Funkcja do zbierania danych od użytkownika
+    private String[] collectEquipmentData() {
         System.out.print("Podaj nazwę sprzętu: ");
         String name = scanner.nextLine();
 
@@ -29,8 +27,29 @@ public class AddEquipmentView {
         int quantity = scanner.nextInt();
         scanner.nextLine(); // Konsumowanie znaku nowej linii
 
-        // Walidacja i dodanie sprzętu
+        return new String[]{name, description, String.valueOf(pricePerDay), String.valueOf(quantity)};
+    }
+
+    // Funkcja wyświetlająca formularz dodawania sprzętu
+    public void displayAddEquipmentForm() {
+        System.out.println("\n=== DODAWANIE NOWEGO SPRZĘTU ===");
+        String[] data = collectEquipmentData();
+
+        String name = data[0];
+        String description = data[1];
+        double pricePerDay = Double.parseDouble(data[2]);
+        int quantity = Integer.parseInt(data[3]);
+
         String result = addEquipmentController.addEquipment(name, description, pricePerDay, quantity);
-        System.out.println(result);
+        displayAddEquipmentResult(result);
+    }
+
+    // Funkcja wyświetlająca komunikat o wyniku dodawania sprzętu
+    private void displayAddEquipmentResult(String result) {
+        if (result.contains("pomyślnie")) {
+            System.out.println("✅ " + result);
+        } else {
+            System.out.println("❌ " + result);
+        }
     }
 }

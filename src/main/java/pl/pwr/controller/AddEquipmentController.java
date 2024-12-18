@@ -9,8 +9,16 @@ public class AddEquipmentController {
         this.modelFacade = modelFacade;
     }
 
-    public String addEquipment(String name, String description, double pricePerDay, int quantity) {
-        return modelFacade.addEquipment(name, description, pricePerDay, quantity);
+    // Funkcja weryfikująca dane sprzętu
+    public boolean validateEquipmentData(String name, String description, double pricePerDay, int quantity) {
+        return !(name == null || name.isEmpty() || description == null || description.isEmpty() || pricePerDay <= 0 || quantity <= 0);
     }
 
+    // Funkcja dodająca sprzęt do modelu
+    public String addEquipment(String name, String description, double pricePerDay, int quantity) {
+        if (!validateEquipmentData(name, description, pricePerDay, quantity)) {
+            return "Nieprawidłowe dane sprzętu.";
+        }
+        return modelFacade.addEquipment(name, description, pricePerDay, quantity);
+    }
 }
