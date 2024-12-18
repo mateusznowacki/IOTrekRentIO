@@ -1,4 +1,4 @@
-package pl.pwr.model;
+package pl.pwr.model.done;
 
 // Strategia obliczania kosztu ze stałą zniżką pracowniczą 40%
 public class EmployeeDiscountCostStrategy implements RentalCostStrategy {

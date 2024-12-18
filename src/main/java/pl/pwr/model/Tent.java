@@ -1,4 +1,4 @@
-package pl.pwr.model;
+package pl.pwr.model.done;
 
 public class Tent extends Equipment {
     private int capacity;

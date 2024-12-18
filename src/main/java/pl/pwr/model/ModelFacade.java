@@ -1,4 +1,4 @@
-package pl.pwr.model;
+package pl.pwr.model.done;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,11 +10,16 @@ public class ModelFacade {
     private EquipmentFactory regularEquipmentFactory;
     private RentalFactory regularRentalFactory;
     private RentalFactory discountedRentalFactory;
+
     private List<Equipment> equipmentList = new ArrayList<>();
     private List<Rental> rentalList = new ArrayList<>();
 
-    public ModelFacade(EquipmentFactory sportEquipmentFactory, EquipmentFactory regularEquipmentFactory,
-                       RentalFactory regularRentalFactory, RentalFactory discountedRentalFactory) {
+    public ModelFacade(
+            EquipmentFactory sportEquipmentFactory,
+            EquipmentFactory regularEquipmentFactory,
+            RentalFactory regularRentalFactory,
+            RentalFactory discountedRentalFactory
+    ) {
         this.sportEquipmentFactory = sportEquipmentFactory;
         this.regularEquipmentFactory = regularEquipmentFactory;
         this.regularRentalFactory = regularRentalFactory;
@@ -41,34 +46,21 @@ public class ModelFacade {
     }
 
     // Metody do wynajmów
-    public Rental createRegularRental(Equipment equipment, Date startDate, Date endDate, int userId) {
-        Rental rental = regularRentalFactory.createRental(equipment, startDate, endDate, userId);
+    public Rental createRegularRental(Equipment equipment, Date startDate, Date endDate) {
+        Rental rental = regularRentalFactory.createRental(equipment, startDate, endDate);
         rentalList.add(rental);
         equipment.setAvailable(false); // Oznacz sprzęt jako wynajęty
         return rental;
     }
 
-    public Rental createDiscountedRental(Equipment equipment, Date startDate, Date endDate, int userId) {
-        Rental rental = discountedRentalFactory.createRental(equipment, startDate, endDate, userId);
+    public Rental createDiscountedRental(Equipment equipment, Date startDate, Date endDate) {
+        Rental rental = discountedRentalFactory.createRental(equipment, startDate, endDate);
         rentalList.add(rental);
         equipment.setAvailable(false); // Oznacz sprzęt jako wynajęty
         return rental;
     }
 
     // Dodatkowe metody dla kontrolera
-
-    // Dodanie nowego sprzętu do listy
-    public String addEquipment(String name, String description, double pricePerDay, int quantity) {
-        Equipment equipment = new Equipment(name, description, pricePerDay);
-
-        // Walidacja danych na poziomie modelu
-        if (!equipment.isValid()) {
-            return "Nieprawidłowe dane sprzętu.";
-        }
-
-        equipmentList.add(equipment);
-        return "Nowy sprzęt został dodany: " + equipment;
-    }
 
     // Pobieranie wszystkich sprzętów
     public List<Equipment> getAllEquipment() {
@@ -101,26 +93,8 @@ public class ModelFacade {
     public boolean isEquipmentAvailable(Equipment equipment) {
         return equipment.isAvailable();
     }
-
-    public List<Rental> getRentalsByUser(int id) {
-        List<Rental> userRentals = new ArrayList<>();
-        for (Rental rental : rentalList) {
-            if (rental.getUserId() == id) {
-                userRentals.add(rental);
-            }
-        }
-        return userRentals;
-    }
-
-    public void addRental(Rental rental) {
-    }
-
-    public Equipment generateRentalId() {
-        return null;
-    }
-
-    public Equipment getEquipmentById(int equipmentId) {
-
-        return null;
-    }
 }
+
+
+
+
