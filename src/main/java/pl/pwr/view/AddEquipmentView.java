@@ -1,34 +1,36 @@
 package pl.pwr.view;
+
 import pl.pwr.controller.AddEquipmentController;
+import pl.pwr.model.Equipment;
 
 import java.util.Scanner;
 
 public class AddEquipmentView {
-    private AddEquipmentController controller;
+    private AddEquipmentController addEquipmentController;
+    private Scanner scanner = new Scanner(System.in);
 
-    public AddEquipmentView(AddEquipmentController controller) {
-        this.controller = controller;
+    public AddEquipmentView(AddEquipmentController addEquipmentController) {
+        this.addEquipmentController = addEquipmentController;
     }
 
     public void displayAddEquipmentForm() {
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n=== DODAWANIE NOWEGO SPRZĘTU ===");
 
-        System.out.println("Formularz dodawania nowego sprzętu:");
-
-        System.out.print("Nazwa sprzętu: ");
+        System.out.print("Podaj nazwę sprzętu: ");
         String name = scanner.nextLine();
 
-        System.out.print("Opis sprzętu: ");
+        System.out.print("Podaj opis sprzętu: ");
         String description = scanner.nextLine();
 
-        System.out.print("Dostępna ilość sprzętu: ");
-        int quantity = scanner.nextInt();
-
-        System.out.print("Cena za dobę: ");
+        System.out.print("Podaj cenę za dobę: ");
         double pricePerDay = scanner.nextDouble();
 
-        // Przekazanie danych do kontrolera
-        String result = controller.addEquipment(name, description, quantity, pricePerDay);
+        System.out.print("Podaj ilość: ");
+        int quantity = scanner.nextInt();
+        scanner.nextLine(); // Konsumowanie znaku nowej linii
+
+        // Walidacja i dodanie sprzętu
+        String result = addEquipmentController.addEquipment(name, description, pricePerDay, quantity);
         System.out.println(result);
     }
 }

@@ -18,7 +18,7 @@ public class ControllerFacade {
 
     public void handleAddEquipment(String name, String description, int quantity, double pricePerDay, ModelFacade modelFacade) {
         AddEquipmentController addEquipmentController = new AddEquipmentController(modelFacade);
-        addEquipmentController.addEquipment(name, description, quantity, pricePerDay);
+        addEquipmentController.addEquipment(name, description,  pricePerDay, quantity);
     }
 
 

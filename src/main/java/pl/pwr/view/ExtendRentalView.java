@@ -1,47 +1,52 @@
 package pl.pwr.view;
 
-import pl.pwr.controller.RentController;
-import pl.pwr.model.Equipment;
-import pl.pwr.model.User;
+import pl.pwr.model.ModelFacade;
+import pl.pwr.model.Rental;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class ExtendRentalView {
-    private RentController rentController;
+    private ModelFacade modelFacade;
 
-    public ExtendRentalView(RentController rentController) {
-        this.rentController = rentController;
+    public ExtendRentalView(ModelFacade modelFacade) {
+        this.modelFacade = modelFacade;
     }
 
-    public void displayExtendRentalForm(int userId) {
-        Scanner scanner = new Scanner(System.in);
+    public void displayRentalHistory(int userId) {
+        List<Rental> rentals = modelFacade.getUserRentalHistory(userId);
 
-        System.out.print("Podaj ID sprzętu, którego wynajem chcesz przedłużyć: ");
-        int equipmentId = scanner.nextInt();
-
-        Equipment equipment = rentController.getModelFacade().getEquipmentById(equipmentId);
-
-        if (equipment == null) {
-            System.out.println("Nie znaleziono sprzętu o podanym ID.");
-            return;
+        if (rentals.isEmpty()) {
+            System.out.println("Brak historii wypożyczeń dla tego użytkownika.");
+        } else {
+            System.out.println("\nHistoria wypożyczeń:");
+            for (Rental rental : rentals) {
+                System.out.println("Sprzęt: " + rental.getEquipment().getName() +
+                        ", Data rozpoczęcia: " + rental.getStartDate() +
+                        ", Data zakończenia: " + rental.getEndDate() +
+                        ", Koszt: " + rental.calculateCost());
+            }
         }
+    }
 
+    public void displayAndExtendRentalHistory(int userId) {
+        displayRentalHistory(userId);
 
-        try {
-            System.out.print("Podaj nową datę zakończenia wynajmu (yyyy-MM-dd): ");
-            String endDateString = scanner.next();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date newDateEnd = dateFormat.parse(endDateString);
+        List<Rental> rentals = modelFacade.getUserRentalHistory(userId);
+        if (!rentals.isEmpty()) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("\nWybierz numer wypożyczenia, które chcesz przedłużyć (0 - anuluj): ");
+            int choice = scanner.nextInt();
 
-            User user =  new User(userId, "Jan");
-
-            rentController.rentOrExtendEquipment(user, equipment, null, newDateEnd);
-
-        } catch (ParseException e) {
-            System.out.println("Nieprawidłowy format daty. Użyj formatu yyyy-MM-dd.");
+            if (choice > 0 && choice <= rentals.size()) {
+                Rental selectedRental = rentals.get(choice - 1);
+                System.out.print("Podaj liczbę dni, o którą chcesz przedłużyć wypożyczenie: ");
+                int additionalDays = scanner.nextInt();
+                modelFacade.extendRental(selectedRental, additionalDays);
+                System.out.println("Wypożyczenie zostało przedłużone. Nowa data zakończenia: " + selectedRental.getEndDate());
+            } else {
+                System.out.println("Anulowano przedłużenie.");
+            }
         }
     }
 }

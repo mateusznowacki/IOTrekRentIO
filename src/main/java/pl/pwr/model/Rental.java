@@ -1,5 +1,6 @@
 package pl.pwr.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Rental {
@@ -28,6 +29,13 @@ public class Rental {
         this.endDate = endDate;
         this.costStrategy = costStrategy;
         this.userId = userId;
+    }
+
+    public void extendRental(int additionalDays) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(endDate);
+        calendar.add(Calendar.DAY_OF_MONTH, additionalDays);
+        endDate = calendar.getTime();
     }
 
 
@@ -62,9 +70,6 @@ public class Rental {
 
     public Date getEndDate() {
         return endDate;
-    }
-
-    public void extendRental(int days) {
     }
 
     public String getDays() {

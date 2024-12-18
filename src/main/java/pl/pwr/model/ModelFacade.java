@@ -20,6 +20,30 @@ public class ModelFacade {
         this.regularRentalFactory = regularRentalFactory;
         this.discountedRentalFactory = discountedRentalFactory;
     }
+    public List<Rental> getUserRentalHistory(int userId) {
+        List<Rental> userRentals = new ArrayList<>();
+        for (Rental rental : rentalList) {
+            if (rental.getUserId() == userId) {
+                userRentals.add(rental);
+            }
+        }
+        return userRentals;
+    }
+
+    public String addEquipment(String name, String description, double pricePerDay, int quantity) {
+        // Sprawdzenie, czy sprzęt o tej nazwie już istnieje
+        for (Equipment equipment : equipmentList) {
+            if (equipment.getName().equalsIgnoreCase(name)) {
+                return "Sprzęt o podanej nazwie już istnieje.";
+            }
+        }
+
+        // Dodanie nowego sprzętu
+        Equipment newEquipment = new Equipment(name, description, pricePerDay);
+        equipmentList.add(newEquipment);
+        return "Nowy sprzęt został dodany pomyślnie: " + name;
+    }
+
 
     // Metody do tworzenia sprzętu
     public Equipment createSportBike(String name, String description, double pricePerDay, int gearCount) {
@@ -57,18 +81,7 @@ public class ModelFacade {
 
     // Dodatkowe metody dla kontrolera
 
-    // Dodanie nowego sprzętu do listy
-    public String addEquipment(String name, String description, double pricePerDay, int quantity) {
-        Equipment equipment = new Equipment(name, description, pricePerDay);
 
-        // Walidacja danych na poziomie modelu
-        if (!equipment.isValid()) {
-            return "Nieprawidłowe dane sprzętu.";
-        }
-
-        equipmentList.add(equipment);
-        return "Nowy sprzęt został dodany: " + equipment;
-    }
 
     // Pobieranie wszystkich sprzętów
     public List<Equipment> getAllEquipment() {
@@ -113,14 +126,28 @@ public class ModelFacade {
     }
 
     public void addRental(Rental rental) {
+        rentalList.add(rental);
+        rental.getEquipment().setAvailable(false); // Oznacz sprzęt jako wynajęty
     }
+
 
     public Equipment generateRentalId() {
         return null;
     }
 
-    public Equipment getEquipmentById(int equipmentId) {
-
-        return null;
+    public void extendRental(Rental rental, int additionalDays) {
+        rental.extendRental(additionalDays);
+        System.out.println("Wypożyczenie zostało przedłużone o " + additionalDays + " dni. Nowa data zakończenia: " + rental.getEndDate());
     }
+
+
+    public Equipment getEquipmentById(int equipmentId) {
+        for (Equipment equipment : equipmentList) {
+            if (equipment.getId() == equipmentId) {
+                return equipment;
+            }
+        }
+        return null; // Jeśli nie znaleziono sprzętu o podanym ID
+    }
+
 }
