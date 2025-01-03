@@ -9,6 +9,7 @@ public class LocalStorage {
     private List<Equipment> equipments;
     private List<Rental> rentals;
     private List<User> users;
+    private User loggedUser;
 
 
 
@@ -17,6 +18,14 @@ public class LocalStorage {
        List<Equipment> equipments = new ArrayList<>();
        List<Rental> rentals = new ArrayList<>();
        List<User> users = new ArrayList<>();
+    }
+
+    public User getLoggedUser() {
+        return loggedUser;
+    }
+
+    public void setLoggedUser(User loggedUser) {
+        this.loggedUser = loggedUser;
     }
 
     // Metoda statyczna do uzyskiwania instancji Singletona

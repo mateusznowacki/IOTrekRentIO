@@ -12,6 +12,10 @@ public class EquipmentCatalogView {
         this.modelFacade = modelFacade;
     }
 
+    public EquipmentCatalogView() {
+
+    }
+
     public void displayCatalogue( List<Equipment> availableEquipment) {
         if (availableEquipment.isEmpty()) {
             System.out.println("Brak dostępnego sprzętu.");

@@ -1,17 +1,17 @@
 package view;
 
 import controller.RentController;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
+import model.ModelFacade;
 
 public class EquipmentDetailsView {
     private RentController rentController;
 
-    public EquipmentDetailsView(RentController rentController) {
-        this.rentController = rentController;
+    public EquipmentDetailsView(ModelFacade modelFacade) {
+        this.rentController = new RentController(modelFacade);
+    }
+
+    public EquipmentDetailsView() {
+
     }
 
 //    public void displayDetails(Equipment equipment) {

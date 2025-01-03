@@ -13,6 +13,10 @@ public class ExtendRentalView {
         this.modelFacade = modelFacade;
     }
 
+    public ExtendRentalView() {
+
+    }
+
     public void displayRentalHistory(int userId) {
         List<Rental> rentals = modelFacade.getUserRentalHistory(userId);
 
@@ -29,7 +33,7 @@ public class ExtendRentalView {
         }
     }
 
-    public void displayAndExtendRentalHistory(int userId) {
+    public void displayAndExtendRentalHistory() {
         displayRentalHistory(userId);
 
         List<Rental> rentals = modelFacade.getUserRentalHistory(userId);

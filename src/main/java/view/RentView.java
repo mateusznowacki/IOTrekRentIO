@@ -2,7 +2,6 @@ package view;
 
 
 import controller.RentController;
-import model.ModelFacade;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -14,7 +13,11 @@ public class RentView {
         this.rentController = rentController;
     }
 
-    public void displayRentForm(int userId, ModelFacade modelFacade, EquipmentCatalogView equipmentCatalogView) {
+    public RentView() {
+
+    }
+
+    public void displayRentForm() {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -78,5 +81,11 @@ public class RentView {
                 System.out.println("Nieprawidłowy wybór, spróbuj ponownie.");
             }
         }
+    }
+
+    public void displayReturnMonitoring() {
+    }
+
+    public void displayRentalHistory() {
     }
 }

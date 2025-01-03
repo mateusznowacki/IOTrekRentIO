@@ -12,6 +12,10 @@ public class AddEquipmentView {
         this.addEquipmentController = addEquipmentController;
     }
 
+    public AddEquipmentView() {
+
+    }
+
     // Funkcja do zbierania danych od użytkownika
     private String[] collectEquipmentData() {
         System.out.print("Podaj nazwę sprzętu: ");
@@ -51,5 +55,14 @@ public class AddEquipmentView {
         } else {
             System.out.println("❌ " + result);
         }
+    }
+
+    public void removeEquipment() {
+    }
+
+    public void blockEquipment() {
+    }
+
+    public void logMaintenance() {
     }
 }

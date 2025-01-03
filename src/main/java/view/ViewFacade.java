@@ -1,67 +1,187 @@
 package view;
 
-import model.done.Equipment;
+import controller.AddEquipmentController;
+import controller.AuthController;
+import controller.RentController;
 import model.ModelFacade;
-import model.done.User;
+import model.done.*;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class ViewFacade {
-    private  ModelFacade modelFacade;
-    private  EquipmentDetailsView equipmentDetailsView;
-    private  AddEquipmentView addEquipmentView;
     private UserAuthView userAuthView;
     private EquipmentCatalogView equipmentCatalogView;
+    private AddEquipmentView addEquipmentView;
     private ExtendRentalView extendRentalView;
+    private EquipmentDetailsView equipmentDetailsView;
     private RentView rentView;
+    private ModelFacade modelFacade;
+    private AuthController authController;
 
     public ViewFacade(UserAuthView userAuthView, EquipmentCatalogView equipmentCatalogView,
                       AddEquipmentView addEquipmentView, ExtendRentalView extendRentalView,
-                      EquipmentDetailsView equipmentDetailsView, ModelFacade modelFacade, RentView rentView) {
+                      EquipmentDetailsView equipmentDetailsView, RentView rentView,
+                      ModelFacade modelFacade, AuthController authController) {
         this.userAuthView = userAuthView;
         this.equipmentCatalogView = equipmentCatalogView;
         this.addEquipmentView = addEquipmentView;
         this.extendRentalView = extendRentalView;
         this.equipmentDetailsView = equipmentDetailsView;
-        this.modelFacade = modelFacade;
         this.rentView = rentView;
+        this.modelFacade = modelFacade;
+        this.authController = authController;
     }
 
-    public ViewFacade(UserAuthView userAuthView, EquipmentCatalogView equipmentCatalogView, ExtendRentalView extendRentalView) {
-        this.userAuthView = userAuthView;
-        this.equipmentCatalogView = equipmentCatalogView;
-        this.extendRentalView = extendRentalView;
+
+    public void displayMainMenu() {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n=== MENU GŁÓWNE ===");
+            System.out.println("1. Logowanie");
+            System.out.println("2. Zarządzanie użytkownikami");
+            System.out.println("3. Zarządzanie wypożyczeniami");
+            System.out.println("4. Zarządzanie sprzętem");
+            System.out.println("0. Wyjście");
+
+            System.out.print("Wybierz opcję: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1 -> handleLogin();
+                case 2 -> displayUserManagementMenu();
+                case 3 -> displayRentalManagementMenu();
+                case 4 -> displayEquipmentManagementMenu();
+                case 0 -> {
+                    System.out.println("Zamykanie aplikacji...");
+                    running = false;
+                }
+                default -> System.out.println("Nieprawidłowy wybór, spróbuj ponownie.");
+            }
+        }
+        scanner.close();
     }
-    public void displayAddEquipmentForm() {
-        addEquipmentView.displayAddEquipmentForm();
+    private void handleLogin() {
+        try {
+            // Delegowanie logowania do kontrolera
+            User loggedInUser = authController.loginUser();
+            if (loggedInUser != null) {
+                System.out.println("Zalogowano jako: " + loggedInUser.getName());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Błąd logowania: " + e.getMessage());
+        }
     }
 
-    public User registerUser() {
-        return userAuthView.registerUser();
+
+    private void displayUserManagementMenu() {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n=== ZARZĄDZANIE UŻYTKOWNIKAMI ===");
+            System.out.println("1. Rejestracja użytkownika");
+            System.out.println("2. Wyświetlanie listy użytkowników");
+            System.out.println("3. Nadawanie/edycja ról");
+            System.out.println("4. Blokowanie kont");
+            System.out.println("0. Powrót");
+
+            System.out.print("Wybierz opcję: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1 -> registerUser();
+                case 2 -> displayUserList();
+                case 3 -> editUserRole();
+                case 4 -> blockUser();
+                case 0 -> running = false;
+                default -> System.out.println("Nieprawidłowy wybór, spróbuj ponownie.");
+            }
+        }
     }
 
-    public User loginUser(List<User> registeredUsers) {
-        return userAuthView.loginUser(registeredUsers);
+    private void registerUser() {
+        User newUser = userAuthView.registerUser();
+        if (newUser != null) {
+            LocalStorage.getInstance().getUsers().add(newUser);
+            System.out.println("Rejestracja zakończona sukcesem.");
+        }
     }
 
-    public void displayCatalogue(List<Equipment> availableEquipment) {
-        equipmentCatalogView.displayCatalogue(availableEquipment);
+    private void displayUserList() {
+        List<User> users = LocalStorage.getInstance().getUsers();
+        userAuthView.displayUserList(users);
     }
 
-    public void displayRentalHistory(int userId) {
-        extendRentalView.displayRentalHistory(userId);
+    private void editUserRole() {
+        try {
+            userAuthView.editUserRole(authController, LocalStorage.getInstance().getUsers());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public void displayAndExtendRentalHistory(int userId) {
-        extendRentalView.displayAndExtendRentalHistory(userId);
+    private void blockUser() {
+        try {
+            userAuthView.blockUser(authController, LocalStorage.getInstance().getUsers());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-//    public void displayRentForm(int userId, ModelFacade modelFacade) {
-//        rentView.displayRentForm(userId, modelFacade);
-//
-//
-//    }
-    public void displayRentForm(int userId, ModelFacade modelFacade, EquipmentCatalogView equipmentCatalogView) {
-        rentView.displayRentForm(userId, modelFacade,equipmentCatalogView);
+
+
+    private void displayRentalManagementMenu() {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n=== ZARZĄDZANIE WYPOŻYCZENIAMI ===");
+            System.out.println("1. Wypożyczanie sprzętu");
+            System.out.println("2. Przedłużanie wypożyczenia");
+            System.out.println("3. Monitorowanie zwrotów");
+            System.out.println("4. Przeglądanie historii wypożyczeń");
+            System.out.println("0. Powrót");
+
+            System.out.print("Wybierz opcję: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1 -> rentView.displayRentForm();
+                case 2 -> extendRentalView.displayAndExtendRentalHistory();
+                case 3 -> rentView.displayReturnMonitoring();
+                case 4 -> rentView.displayRentalHistory();
+                case 0 -> running = false;
+                default -> System.out.println("Nieprawidłowy wybór, spróbuj ponownie.");
+            }
+        }
+    }
+
+    private void displayEquipmentManagementMenu() {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n=== ZARZĄDZANIE SPRZĘTEM ===");
+            System.out.println("1. Dodawanie nowego sprzętu");
+            System.out.println("2. Usuwanie sprzętu");
+            System.out.println("3. Blokowanie sprzętu");
+            System.out.println("4. Rejestrowanie napraw i przeglądów");
+            System.out.println("0. Powrót");
+
+            System.out.print("Wybierz opcję: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1 -> addEquipmentView.displayAddEquipmentForm();
+                case 2 -> addEquipmentView.removeEquipment();
+                case 3 -> addEquipmentView.blockEquipment();
+                case 4 -> addEquipmentView.logMaintenance();
+                case 0 -> running = false;
+                default -> System.out.println("Nieprawidłowy wybór, spróbuj ponownie.");
+            }
+        }
     }
 }

@@ -2,6 +2,8 @@ package controller;
 
 import model.ModelFacade;
 
+import java.util.Scanner;
+
 public class AddEquipmentController {
     private ModelFacade modelFacade;
 
@@ -9,16 +11,31 @@ public class AddEquipmentController {
         this.modelFacade = modelFacade;
     }
 
-    // Funkcja weryfikująca dane sprzętu
-    public boolean validateEquipmentData(String name, String description, double pricePerDay, int quantity) {
-        return !(name == null || name.isEmpty() || description == null || description.isEmpty() || pricePerDay <= 0 || quantity <= 0);
+    public void addEquipment() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Podaj nazwę sprzętu:");
+        String name = scanner.nextLine();
+
+        System.out.println("Podaj opis sprzętu:");
+        String description = scanner.nextLine();
+
+        System.out.println("Podaj cenę za dzień:");
+        double pricePerDay = scanner.nextDouble();
+
+        System.out.println("Podaj ilość sprzętu:");
+        int quantity = scanner.nextInt();
+
+        if (!validateEquipmentData(name, description, pricePerDay, quantity)) {
+            System.out.println("Nieprawidłowe dane sprzętu.");
+            return;
+        }
+
+        String result = modelFacade.addEquipment(name, description, pricePerDay, quantity);
+        System.out.println(result);
     }
 
-    // Funkcja dodająca sprzęt do modelu
-    public String addEquipment(String name, String description, double pricePerDay, int quantity) {
-        if (!validateEquipmentData(name, description, pricePerDay, quantity)) {
-            return "Nieprawidłowe dane sprzętu.";
-        }
-        return modelFacade.addEquipment(name, description, pricePerDay, quantity);
+    private boolean validateEquipmentData(String name, String description, double pricePerDay, int quantity) {
+        return !(name == null || name.isEmpty() || description == null || description.isEmpty() || pricePerDay <= 0 || quantity <= 0);
     }
 }

@@ -1,5 +1,6 @@
 package view;
 
+import controller.AuthController;
 import model.done.User;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class UserAuthView {
     }
 
     // Metoda do logowania użytkownika
-    public User loginUser(List<User> registeredUsers) {
+    public User loginUser() {
         if (registeredUsers.isEmpty()) {
             System.out.println("Brak zarejestrowanych użytkowników. Najpierw się zarejestruj.");
             return null;
@@ -87,5 +88,14 @@ public class UserAuthView {
     // Pobranie zalogowanego użytkownika
     public User getLoggedInUser() {
         return loggedInUser;
+    }
+
+    public void blockUser(AuthController authController, List<User> users) {
+    }
+
+    public void editUserRole(AuthController authController, List<User> users) {
+    }
+
+    public void displayUserList(List<User> users) {
     }
 }
