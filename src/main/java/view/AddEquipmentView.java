@@ -35,18 +35,18 @@ public class AddEquipmentView {
     }
 
     // Funkcja wyświetlająca formularz dodawania sprzętu
-    public void displayAddEquipmentForm() {
-        System.out.println("\n=== DODAWANIE NOWEGO SPRZĘTU ===");
-        String[] data = collectEquipmentData();
-
-        String name = data[0];
-        String description = data[1];
-        double pricePerDay = Double.parseDouble(data[2]);
-        int quantity = Integer.parseInt(data[3]);
-
-        String result = addEquipmentController.addEquipment(name, description, pricePerDay, quantity);
-        displayAddEquipmentResult(result);
-    }
+//    public void displayAddEquipmentForm() {
+//        System.out.println("\n=== DODAWANIE NOWEGO SPRZĘTU ===");
+//        String[] data = collectEquipmentData();
+//
+//        String name = data[0];
+//        String description = data[1];
+//        double pricePerDay = Double.parseDouble(data[2]);
+//        int quantity = Integer.parseInt(data[3]);
+//
+//        String result = addEquipmentController.addEquipment(name, description, pricePerDay, quantity);
+//        displayAddEquipmentResult(result);
+//    }
 
     // Funkcja wyświetlająca komunikat o wyniku dodawania sprzętu
     private void displayAddEquipmentResult(String result) {

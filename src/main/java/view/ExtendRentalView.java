@@ -33,24 +33,24 @@ public class ExtendRentalView {
         }
     }
 
-    public void displayAndExtendRentalHistory() {
-        displayRentalHistory(userId);
-
-        List<Rental> rentals = modelFacade.getUserRentalHistory(userId);
-        if (!rentals.isEmpty()) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("\nWybierz numer wypożyczenia, które chcesz przedłużyć (0 - anuluj): ");
-            int choice = scanner.nextInt();
-
-            if (choice > 0 && choice <= rentals.size()) {
-                Rental selectedRental = rentals.get(choice - 1);
-                System.out.print("Podaj liczbę dni, o którą chcesz przedłużyć wypożyczenie: ");
-                int additionalDays = scanner.nextInt();
-                modelFacade.extendRental(selectedRental, additionalDays);
-                System.out.println("Wypożyczenie zostało przedłużone. Nowa data zakończenia: " + selectedRental.getEndDate());
-            } else {
-                System.out.println("Anulowano przedłużenie.");
-            }
-        }
-    }
+//    public void displayAndExtendRentalHistory() {
+//        displayRentalHistory(userId);
+//
+//        List<Rental> rentals = modelFacade.getUserRentalHistory(userId);
+//        if (!rentals.isEmpty()) {
+//            Scanner scanner = new Scanner(System.in);
+//            System.out.print("\nWybierz numer wypożyczenia, które chcesz przedłużyć (0 - anuluj): ");
+//            int choice = scanner.nextInt();
+//
+//            if (choice > 0 && choice <= rentals.size()) {
+//                Rental selectedRental = rentals.get(choice - 1);
+//                System.out.print("Podaj liczbę dni, o którą chcesz przedłużyć wypożyczenie: ");
+//                int additionalDays = scanner.nextInt();
+//                modelFacade.extendRental(selectedRental, additionalDays);
+//                System.out.println("Wypożyczenie zostało przedłużone. Nowa data zakończenia: " + selectedRental.getEndDate());
+//            } else {
+//                System.out.println("Anulowano przedłużenie.");
+//            }
+//        }
+//    }
 }

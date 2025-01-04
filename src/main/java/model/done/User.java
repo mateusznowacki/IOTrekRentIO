@@ -7,13 +7,15 @@ public  class User {
     private String name;
     private String email;
     private String role;
+    private String password;
 
 
-    public User(int id, String name, String email, String role) {
+    public User(int id, String name, String email, String role, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.role = role;
+        this.password = password;
     }
 
     public User() {
@@ -70,5 +72,9 @@ public  class User {
             return true;
         }
         return false;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

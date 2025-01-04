@@ -1,26 +1,59 @@
 package controller;
 
 import model.ModelFacade;
+import model.done.Equipment;
+import model.done.Rental;
+import model.done.User;
+
+import java.util.Date;
+import java.util.List;
 
 public class ControllerFacade {
     private ModelFacade modelFacade;
+    private AuthController authController;
 
-    public ControllerFacade(ModelFacade modelFacade) {
+    public ControllerFacade(ModelFacade modelFacade, AuthController authController) {
         this.modelFacade = modelFacade;
+        this.authController = authController;
     }
 
-    public void handleAddEquipment(String name, String description, double pricePerDay, int quantity) {
-        AddEquipmentController addEquipmentController = new AddEquipmentController(modelFacade);
-        addEquipmentController.addEquipment(name, description, pricePerDay, quantity);
+    public List<Equipment> getAvailableEquipment() {
+        return modelFacade.getAvailableEquipment();
     }
 
-    public void handleRent(int userId, int equipmentId, Date startDate, Date endDate, boolean isEmployee) {
-        RentController rentController = new RentController(modelFacade);
-        rentController.rentEquipment(userId, equipmentId, startDate, endDate, isEmployee);
+    public boolean registerUser(int userId, String userName, String email, String role, String password) {
+        return authController.registerUser(userId, userName, email, role, password);
     }
 
-    public void handleExtendRental(int rentalId, int additionalDays) {
-        RentController rentController = new RentController(modelFacade);
-        rentController.extendRental(rentalId, additionalDays);
+    public User loginUser(int userId, String password) {
+        return authController.loginUser(userId, password);
+    }
+
+    public boolean logoutUser() {
+        return authController.logoutUser();
+    }
+
+    public List<User> getAllUsers() {
+        return authController.getAllUsers();
+    }
+
+    public List<Rental> getRentalHistory(int userId) {
+        return modelFacade.getUserRentalHistory(userId);
+    }
+
+    public List<Rental> getUserRentalHistory() {
+        return modelFacade.getUserRentalHistory(modelFacade.getLoggedUser().getId());
+    }
+
+    public boolean isEquipmentAvailable(int equipmentId) {
+        return modelFacade.isEquipmentAvailable(equipmentId);
+    }
+
+    public double calculateRentalCost(int equipmentId, Date startDate, Date endDate) {
+        return modelFacade.calculateRentalCost( equipmentId,  startDate,  endDate);
+    }
+
+    public boolean rentEquipment(int equipmentId, Date startDate, Date endDate) {
+        modelFacade.rentEquipment()
     }
 }

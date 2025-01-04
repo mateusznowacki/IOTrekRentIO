@@ -8,6 +8,7 @@ public class Rental {
 
     private int id;
     private int userId;
+    private double cost;
     private Equipment equipment;
     private Date startDate;
     private Date endDate;
@@ -34,7 +35,8 @@ public class Rental {
     public double calculateCost() {
         long diffInMillies = endDate.getTime() - startDate.getTime();
         int days = (int) (diffInMillies / (1000 * 60 * 60 * 24));
-        return costStrategy.calculateCost(days, equipment.getPricePerDay());
+        cost = costStrategy.calculateCost(days, equipment.getPricePerDay());
+        return cost;
     }
 
 
@@ -92,5 +94,9 @@ public class Rental {
 
     public void setCostStrategy(RentalCostStrategy costStrategy) {
         this.costStrategy = costStrategy;
+    }
+
+    public double getCost() {
+        return cost;
     }
 }

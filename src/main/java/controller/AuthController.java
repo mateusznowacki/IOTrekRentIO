@@ -1,71 +1,49 @@
 package controller;
 
+import model.ModelFacade;
+import model.done.LocalStorage;
 import model.done.User;
 
 import java.util.List;
-import java.util.Scanner;
+
+//todo poprawić localstorage na modelfacade ewentualnie
 
 public class AuthController {
-    private User loggedInUser;
+    private ModelFacade modelFacade;
+    private LocalStorage localStorage;
 
-    public void registerUser(List<User> users) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Podaj nazwę użytkownika:");
-        String name = scanner.nextLine();
-
-        System.out.println("Podaj email:");
-        String email = scanner.nextLine();
-
-        System.out.println("Podaj rolę (ADMIN lub USER):");
-        String role = scanner.nextLine();
-
-        if (email.isEmpty() || name.isEmpty() || role.isEmpty()) {
-            System.out.println("Nieprawidłowe dane. Rejestracja nieudana.");
-            return;
-        }
-
-        for (User user : users) {
-            if (user.getEmail().equalsIgnoreCase(email)) {
-                System.out.println("Użytkownik z tym adresem email już istnieje.");
-                return;
-            }
-        }
-
-        User newUser = new User(users.size() + 1, name, email, role);
-        users.add(newUser);
-        System.out.println("Rejestracja zakończona sukcesem.");
+    public AuthController(ModelFacade modelFacade) {
+        this.modelFacade = modelFacade;
+        localStorage = LocalStorage.getInstance();
     }
 
-    public void loginUser(List<User> users) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Podaj ID użytkownika:");
-        int userId = scanner.nextInt();
-
-        for (User user : users) {
-            if (user.getId() == userId) {
-                loggedInUser = user;
-                System.out.println("Zalogowano jako: " + user.getName());
-                return;
-            }
+    public boolean registerUser(int id, String name, String email, String role, String password) {
+        if (localStorage.getUserById(id) != null) {
+            return false; // Użytkownik o podanym ID już istnieje
         }
-
-        System.out.println("Nie znaleziono użytkownika o podanym ID.");
+        User newUser = new User(id, name, email, role, password);
+        localStorage.addUser(newUser);
+        return true;
     }
 
-    public boolean isAdmin() {
-        return loggedInUser != null && "ADMIN".equalsIgnoreCase(loggedInUser.getRole());
-    }
-
-    public boolean isLoggedIn() {
-        return loggedInUser != null;
-    }
-
-    public User getLoggedInUser() {
-        if (loggedInUser == null) {
-            throw new IllegalStateException("Nie jesteś zalogowany.");
+    public User loginUser(int id, String password) {
+        User user = localStorage.getUserById(id);
+        if (user != null && user.getPassword().equals(password)) {
+            localStorage.setLoggedUser(user);
+            return user;
         }
-        return loggedInUser;
+        return null; // Nieprawidłowe dane logowania
+    }
+
+    public boolean logoutUser() {
+        if (localStorage.getLoggedUser() != null) {
+            localStorage.setLoggedUser(null);
+            return true;
+        }
+        return false;
+    }
+
+    public List<User> getAllUsers() {
+        return localStorage.getUsers();
     }
 }

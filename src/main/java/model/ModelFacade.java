@@ -4,6 +4,7 @@ import model.done.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ModelFacade {
 
@@ -22,17 +23,30 @@ public class ModelFacade {
         this.storage = LocalStorage.getInstance();
     }
 
-    // Rejestracja klienta
-    public String registerUser(String name, String email, String role) {
-        for (User user : storage.getUsers()) {
-            if (user.getEmail().equalsIgnoreCase(email)) {
-                return "Użytkownik z podanym adresem e-mail już istnieje.";
-            }
-        }
-        User newUser = new User(storage.getUsers().size() + 1, name, email, role);
-        storage.getUsers().add(newUser);
-        return "Rejestracja zakończona sukcesem dla użytkownika: " + name;
+
+
+    public List<Equipment> getAvailableEquipment() {
+        // Filtruj tylko dostępny sprzęt
+        return storage.getEquipments().stream()
+                .filter(Equipment::isAvailable)
+                .collect(Collectors.toList());
     }
+
+
+
+
+
+//    // Rejestracja klienta
+//    public String registerUser(String name, String email, String role) {
+//        for (User user : storage.getUsers()) {
+//            if (user.getEmail().equalsIgnoreCase(email)) {
+//                return "Użytkownik z podanym adresem e-mail już istnieje.";
+//            }
+//        }
+//        User newUser = new User(storage.getUsers().size() + 1, name, email, role);
+//        storage.getUsers().add(newUser);
+//        return "Rejestracja zakończona sukcesem dla użytkownika: " + name;
+//    }
 
     // Logowanie użytkownika
     public User loginUser(String email) {
@@ -116,4 +130,37 @@ public class ModelFacade {
     public List<User> getUsers() {
         return storage.getUsers();
     }
+
+
+    public User getLoggedUser() {
+        return storage.getLoggedUser();
+    }
+
+    public boolean isEquipmentAvailable(int equipmentId) {
+        Equipment equipment = getEquipmentById(equipmentId);
+        return equipment != null && equipment.isAvailable();
+    }
+
+    public double calculateRentalCost(int equipmentId, Date startDate, Date endDate) {
+        Equipment equipment = getEquipmentById(equipmentId);
+        if (equipment == null || !equipment.isAvailable()) {
+            throw new IllegalArgumentException("Sprzęt jest niedostępny.");
+        }
+
+        // Pobranie zalogowanego użytkownika
+        User loggedUser = getLoggedUser();
+        if (loggedUser == null) {
+            throw new IllegalStateException("Brak zalogowanego użytkownika.");
+        }
+
+        // Wybór fabryki na podstawie roli użytkownika
+        RentalFactory factory = loggedUser.isEmployee() ? discountedRentalFactory : regularRentalFactory;
+
+        // Tworzenie tymczasowego wypożyczenia za pomocą fabryki
+        Rental temporaryRental = factory.createRental(0, loggedUser.getId(), equipment, startDate, endDate);
+
+        // Obliczenie kosztu wynajmu za pomocą strategii kosztów
+        return temporaryRental.calculateCost();
+    }
+
 }

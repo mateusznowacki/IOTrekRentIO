@@ -1,24 +1,27 @@
 package view;
 
+import controller.ControllerFacade;
+import model.done.Equipment;
+import model.done.Rental;
 
-import controller.RentController;
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class RentView {
-    private RentController rentController;
+    private ControllerFacade controllerFacade;
+    private ViewFacade viewFacade;
+    private Scanner scanner;
 
-    public RentView(RentController rentController) {
-        this.rentController = rentController;
+    public RentView(ControllerFacade controllerFacade) {
+        this.controllerFacade = controllerFacade;
+        this.scanner = new Scanner(System.in);
     }
 
-    public RentView() {
-
-    }
 
     public void displayRentForm() {
-        Scanner scanner = new Scanner(System.in);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         while (true) {
             System.out.println("\n=== MENU WYPOŻYCZENIA SPRZĘTU ===");
@@ -33,20 +36,24 @@ public class RentView {
             }
 
             if (choice == 1) {
-                // Wyświetlenie katalogu sprzętu
-                equipmentCatalogView.displayCatalogue(modelFacade.getAvailableEquipment());
+                // Wyświetlenie katalogu sprzętu za pomocą ControllerFacade
+                List<Equipment> availableEquipment = controllerFacade.getAvailableEquipment();
+                if (availableEquipment.isEmpty()) {
+                    System.out.println("Brak dostępnego sprzętu.");
+                    return;
+                }
+
+                System.out.println("\nDostępny sprzęt:");
+                for (Equipment equipment : availableEquipment) {
+                    System.out.println("ID: " + equipment.getId() + ", Nazwa: " + equipment.getName() +
+                            ", Cena za dobę: " + equipment.getPricePerDay());
+                }
 
                 System.out.print("Podaj ID sprzętu do wypożyczenia: ");
                 int equipmentId = scanner.nextInt();
 
-                // Sprawdzenie, czy sprzęt jest już wypożyczony przez klienta
-                if (rentController.isEquipmentRentedByUser(userId, equipmentId)) {
-                    System.out.println("Ten sprzęt jest już w Twoich wypożyczeniach.");
-                    continue;
-                }
-
-                // Sprawdzenie dostępności sprzętu
-                if (!rentController.isEquipmentAvailable(equipmentId)) {
+                // Sprawdzenie dostępności sprzętu za pomocą ControllerFacade
+                if (!controllerFacade.isEquipmentAvailable(equipmentId)) {
                     System.out.println("Wybrany sprzęt nie jest dostępny.");
                     continue;
                 }
@@ -57,19 +64,27 @@ public class RentView {
                 String endDateInput = scanner.next();
 
                 try {
-                    Date startDate = RentController.parseDate(startDateInput);
-                    Date endDate = RentController.parseDate(endDateInput);
+                    Date startDate = dateFormat.parse(startDateInput);
+                    Date endDate = dateFormat.parse(endDateInput);
 
-                    double cost = rentController.calculateRentalCost(equipmentId, startDate, endDate);
+                    if (endDate.before(startDate)) {
+                        System.out.println("Data zakończenia musi być późniejsza niż data rozpoczęcia.");
+                        continue;
+                    }
+
+                    double cost = controllerFacade.calculateRentalCost(equipmentId, startDate, endDate);
                     System.out.println("Całkowity koszt wypożyczenia: " + cost + " PLN");
 
                     System.out.print("Czy potwierdzasz wypożyczenie? (tak/nie): ");
                     String confirmation = scanner.next();
 
                     if (confirmation.equalsIgnoreCase("tak")) {
-                        rentController.rentEquipment(userId, equipmentId, startDate, endDate);
-                        System.out.println("Wypożyczenie zakończone sukcesem!");
-                        return;
+                        if (controllerFacade.rentEquipment(equipmentId, startDate, endDate)) {
+                            System.out.println("Wypożyczenie zakończone sukcesem!");
+                            return;
+                        } else {
+                            System.out.println("Nie udało się wypożyczyć sprzętu. Spróbuj ponownie.");
+                        }
                     } else {
                         System.out.println("Anulowano wypożyczenie.");
                     }
@@ -83,9 +98,40 @@ public class RentView {
         }
     }
 
-    public void displayReturnMonitoring() {
+
+    public void displayRentalHistory(int userId) {
+        List<Rental> rentals = controllerFacade.getRentalHistory(userId);
     }
 
-    public void displayRentalHistory() {
+    public void displayUserRentalHistory() {
+        List<Rental> rentals = controllerFacade.getUserRentalHistory();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        if (rentals.isEmpty()) {
+            System.out.println("Brak historii wypożyczeń.");
+            return;
+        }
+
+        System.out.println("=== Historia Wypożyczeń ===");
+        System.out.printf("%-5s %-20s %-20s %-20s %-10s\n", "LP", "Sprzęt", "Data Wypożyczenia", "Data Zwrotu", "Koszt");
+        System.out.println("--------------------------------------------------------------------------");
+
+        int lp = 1;
+        for (Rental rental : rentals) {
+            String startDate = dateFormat.format(rental.getStartDate());
+            String endDate = dateFormat.format(rental.getEndDate());
+            double cost = rental.calculateCost();
+
+            System.out.printf("%-5d %-20s %-20s %-20s %-10.2f\n",
+                    lp,
+                    rental.getEquipment().getName(),
+                    startDate,
+                    endDate,
+                    cost);
+            lp++;
+        }
     }
 }
+
+
+
