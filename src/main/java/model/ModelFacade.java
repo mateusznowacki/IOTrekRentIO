@@ -2,6 +2,7 @@ package model;
 
 import model.done.*;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,18 +36,6 @@ public class ModelFacade {
 
 
 
-
-//    // Rejestracja klienta
-//    public String registerUser(String name, String email, String role) {
-//        for (User user : storage.getUsers()) {
-//            if (user.getEmail().equalsIgnoreCase(email)) {
-//                return "Użytkownik z podanym adresem e-mail już istnieje.";
-//            }
-//        }
-//        User newUser = new User(storage.getUsers().size() + 1, name, email, role);
-//        storage.getUsers().add(newUser);
-//        return "Rejestracja zakończona sukcesem dla użytkownika: " + name;
-//    }
 
     // Logowanie użytkownika
     public User loginUser(String email) {
@@ -85,17 +74,6 @@ public class ModelFacade {
         return true;
     }
 
-
-    // Przedłużenie wypożyczenia
-    public void extendRental(int rentalId, int additionalDays) {
-        for (Rental rental : storage.getRentals()) {
-            if (rental.getId() == rentalId) {
-                rental.extendRental(additionalDays);
-                return;
-            }
-        }
-        throw new IllegalArgumentException("Wypożyczenie o podanym ID nie istnieje.");
-    }
 
     // Przeglądanie katalogu sprzętu
     public List<Equipment> getEquipmentCatalog() {
@@ -177,5 +155,37 @@ public class ModelFacade {
         // Obliczenie kosztu wynajmu za pomocą strategii kosztów
         return temporaryRental.calculateCost();
     }
+
+
+    public boolean checkAndExtendRental(int rentalId, int additionalDays) {
+        Rental rental = storage.getRentals().stream()
+                .filter(r -> r.getId() == rentalId)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Wypożyczenie o podanym ID nie istnieje."));
+
+        // Obliczenie nowej daty zakończenia
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(rental.getEndDate());
+        calendar.add(Calendar.DAY_OF_MONTH, additionalDays);
+        Date newEndDate = calendar.getTime();
+
+        // Sprawdzenie kolizji z innymi wypożyczeniami
+        for (Rental otherRental : storage.getRentals()) {
+            if (otherRental.getEquipment().equals(rental.getEquipment()) &&
+                    !otherRental.equals(rental) &&
+                    newEndDate.after(otherRental.getStartDate()) &&
+                    rental.getStartDate().before(otherRental.getEndDate())) {
+                return false; // Kolizja
+            }
+        }
+
+        // Przedłużenie wypożyczenia
+        rental.extendRental(additionalDays);
+        return true;
+    }
+
+
+
+
 
 }

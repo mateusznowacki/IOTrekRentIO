@@ -58,4 +58,12 @@ public class ControllerFacade {
     public boolean rentEquipment(int equipmentId, Date startDate, Date endDate) {
         return rentController.rentEquipment(equipmentId, startDate, endDate);
     }
+
+    public boolean extendRental(int rentalId, int additionalDays) {
+        return rentController.extendRental(rentalId, additionalDays);
+    }
+
+    public List<Rental> getUserRentalHistory(int userId) {
+        return modelFacade.getUserRentalHistory(userId);
+    }
 }

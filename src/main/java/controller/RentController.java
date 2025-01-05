@@ -26,9 +26,16 @@ public class RentController {
     }
 
 
-    public void extendRental(int rentalId, int additionalDays) {
-        modelFacade.extendRental(rentalId, additionalDays);
+    public boolean extendRental(int rentalId, int additionalDays) {
+        try {
+            modelFacade.checkAndExtendRental(rentalId, additionalDays);
+            return true;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Błąd podczas przedłużania wypożyczenia: " + e.getMessage());
+            return false;
+        }
     }
+
 
     public boolean isEquipmentAvailable(int equipmentId) {
         return modelFacade.getEquipmentById(equipmentId).isAvailable();

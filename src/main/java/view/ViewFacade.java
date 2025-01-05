@@ -1,19 +1,12 @@
 package view;
 
-import controller.AddEquipmentController;
-import controller.AuthController;
-import controller.RentController;
-import model.ModelFacade;
-import model.done.*;
-
-import java.util.List;
 import java.util.Scanner;
 
 public class ViewFacade {
     private UserAuthView userAuthView;
     private EquipmentCatalogView equipmentCatalogView;
     private AddEquipmentView addEquipmentView;
-    private ExtendRentalView extendRentalView;
+
     private EquipmentDetailsView equipmentDetailsView;
     private RentView rentView;
 
@@ -55,7 +48,7 @@ public class ViewFacade {
                 case 2 -> userAuthView.registerUser();
                 case 3 -> equipmentCatalogView.displayCatalogue();
                 case 4 -> rentView.displayRentForm();
-             //   case 5 -> extendRentalView.displayAndExtendRentalHistory();
+                case 5 -> rentView.displayHistoryAndExtendRental();
                 case 6 -> rentView.displayUserRentalHistory();
 
 
@@ -89,9 +82,7 @@ public class ViewFacade {
         this.addEquipmentView = addEquipmentView;
     }
 
-    public void setExtendRentalView(ExtendRentalView extendRentalView) {
-        this.extendRentalView = extendRentalView;
-    }
+
 
     public void setEquipmentDetailsView(EquipmentDetailsView equipmentDetailsView) {
         this.equipmentDetailsView = equipmentDetailsView;

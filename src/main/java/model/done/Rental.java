@@ -29,9 +29,10 @@ public class Rental {
         calendar.setTime(endDate);
         calendar.add(Calendar.DAY_OF_MONTH, additionalDays);
         endDate = calendar.getTime();
+        calculateCost();
     }
 
-
+//todo poprawic koszt przy przedłuzaniu employee/customer
     public double calculateCost() {
         long diffInMillies = endDate.getTime() - startDate.getTime();
         int days = (int) (diffInMillies / (1000 * 60 * 60 * 24));

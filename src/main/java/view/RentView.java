@@ -18,7 +18,7 @@ public class RentView {
         this.controllerFacade = controllerFacade;
         this.scanner = new Scanner(System.in);
     }
-    
+
     public void displayRentForm() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -107,7 +107,7 @@ public class RentView {
 
         if (rentals.isEmpty()) {
             System.out.println("Brak historii wypożyczeń.");
-            return;
+            return ;
         }
 
         System.out.println("=== Historia Wypożyczeń ===");
@@ -127,6 +127,38 @@ public class RentView {
                     endDate,
                     cost);
             lp++;
+        }
+    }
+
+
+    public void displayHistoryAndExtendRental() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        List<Rental> rentals = controllerFacade.getUserRentalHistory();
+
+        if (rentals.isEmpty()) {
+            System.out.println("Brak historii wypożyczeń.");
+            return;
+        }else {
+            displayUserRentalHistory();
+        }
+
+        // Wybranie wypożyczenia do przedłużenia
+        System.out.print("\nWybierz numer wypożyczenia, które chcesz przedłużyć (0 - anuluj): ");
+        int choice = scanner.nextInt();
+        if (choice > 0 && choice <= rentals.size()) {
+            Rental selectedRental = rentals.get(choice - 1);
+            System.out.print("Podaj liczbę dni, o którą chcesz przedłużyć wypożyczenie: ");
+            int additionalDays = scanner.nextInt();
+
+            // Sprawdzenie dostępności przedłużenia
+            boolean success = controllerFacade.extendRental(selectedRental.getId(), additionalDays);
+            if (success) {
+                System.out.println("Wypożyczenie zostało przedłużone.");
+            } else {
+                System.out.println("Nie udało się przedłużyć wypożyczenia. Wybrany termin koliduje z innym wypożyczeniem.");
+            }
+        } else {
+            System.out.println("Anulowano przedłużenie.");
         }
     }
 }
