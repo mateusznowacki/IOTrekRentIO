@@ -18,8 +18,7 @@ public class RentView {
         this.controllerFacade = controllerFacade;
         this.scanner = new Scanner(System.in);
     }
-
-
+    
     public void displayRentForm() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -97,7 +96,6 @@ public class RentView {
             }
         }
     }
-
 
     public void displayRentalHistory(int userId) {
         List<Rental> rentals = controllerFacade.getRentalHistory(userId);

@@ -58,18 +58,33 @@ public class ModelFacade {
         return null;
     }
 
-    // Wypożyczenie sprzętu
-    public Rental rentEquipment(int userId, int equipmentId, Date startDate, Date endDate, boolean isEmployee) {
+    public boolean rentEquipment(int equipmentId, Date startDate, Date endDate) {
+        User loggedUser = getLoggedUser();
+        if (loggedUser == null) {
+            throw new IllegalStateException("Brak zalogowanego użytkownika.");
+        }
+
         Equipment equipment = getEquipmentById(equipmentId);
         if (equipment == null || !equipment.isAvailable()) {
-            throw new IllegalArgumentException("Sprzęt jest niedostępny.");
+            throw new IllegalArgumentException("Wybrany sprzęt nie jest dostępny.");
         }
-        RentalFactory factory = isEmployee ? discountedRentalFactory : regularRentalFactory;
-        Rental rental = factory.createRental(storage.getRentals().size() + 1, userId, equipment, startDate, endDate);
+
+        // Wybór fabryki na podstawie roli użytkownika
+        RentalFactory factory = loggedUser.isEmployee() ? new EmployeeRentalFactory() : new RegularRentalFactory();
+
+        Rental rental = factory.createRental(
+                storage.getRentals().size() + 1,
+                loggedUser.getId(),
+                equipment,
+                startDate,
+                endDate
+        );
+
         storage.getRentals().add(rental);
         equipment.setAvailable(false);
-        return rental;
+        return true;
     }
+
 
     // Przedłużenie wypożyczenia
     public void extendRental(int rentalId, int additionalDays) {

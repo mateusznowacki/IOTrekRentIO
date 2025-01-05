@@ -10,10 +10,12 @@ import java.util.List;
 
 public class ControllerFacade {
     private ModelFacade modelFacade;
+    private RentController rentController;
     private AuthController authController;
 
-    public ControllerFacade(ModelFacade modelFacade, AuthController authController) {
+    public ControllerFacade(ModelFacade modelFacade, AuthController authController, RentController rentController) {
         this.modelFacade = modelFacade;
+        this.rentController = rentController;
         this.authController = authController;
     }
 
@@ -38,11 +40,11 @@ public class ControllerFacade {
     }
 
     public List<Rental> getRentalHistory(int userId) {
-        return modelFacade.getUserRentalHistory(userId);
+        return rentController.getUserRentalHistory(userId);
     }
 
     public List<Rental> getUserRentalHistory() {
-        return modelFacade.getUserRentalHistory(modelFacade.getLoggedUser().getId());
+        return rentController.getUserRentalHistory(modelFacade.getLoggedUser().getId());
     }
 
     public boolean isEquipmentAvailable(int equipmentId) {
@@ -50,10 +52,10 @@ public class ControllerFacade {
     }
 
     public double calculateRentalCost(int equipmentId, Date startDate, Date endDate) {
-        return modelFacade.calculateRentalCost( equipmentId,  startDate,  endDate);
+        return rentController.calculateRentalCost(equipmentId, startDate, endDate);
     }
 
     public boolean rentEquipment(int equipmentId, Date startDate, Date endDate) {
-        modelFacade.rentEquipment()
+        return rentController.rentEquipment(equipmentId, startDate, endDate);
     }
 }

@@ -5,6 +5,7 @@ import model.done.Equipment;
 import model.done.Rental;
 
 import java.util.Date;
+import java.util.List;
 
 public class RentController {
     private ModelFacade modelFacade;
@@ -13,16 +14,17 @@ public class RentController {
         this.modelFacade = modelFacade;
     }
 
-    public Rental rentEquipment(int userId, int equipmentId, Date startDate, Date endDate, boolean isEmployee) {
+    public boolean rentEquipment(int userId, int equipmentId, Date startDate, Date endDate, boolean isEmployee) {
         Equipment equipment = modelFacade.getEquipmentById(equipmentId);
 
         if (equipment == null || !equipment.isAvailable()) {
             throw new IllegalArgumentException("Sprzęt jest niedostępny.");
         }
 
-        Rental rental = modelFacade.rentEquipment(userId, equipmentId, startDate, endDate, isEmployee);
+        boolean rental = modelFacade.rentEquipment( equipmentId, startDate, endDate);
         return rental;
     }
+
 
     public void extendRental(int rentalId, int additionalDays) {
         modelFacade.extendRental(rentalId, additionalDays);
@@ -30,5 +32,17 @@ public class RentController {
 
     public boolean isEquipmentAvailable(int equipmentId) {
         return modelFacade.getEquipmentById(equipmentId).isAvailable();
+    }
+
+    public List<Rental> getUserRentalHistory(int userId) {
+        return modelFacade.getUserRentalHistory(userId);
+    }
+
+    public double calculateRentalCost(int equipmentId, Date startDate, Date endDate) {
+        return modelFacade.calculateRentalCost(equipmentId, startDate, endDate);
+    }
+
+    public boolean rentEquipment(int equipmentId, Date startDate, Date endDate) {
+        return modelFacade.rentEquipment(equipmentId, startDate, endDate);
     }
 }
