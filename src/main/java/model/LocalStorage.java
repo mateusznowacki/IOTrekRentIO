@@ -1,4 +1,4 @@
-package model.done;
+package model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,10 +31,31 @@ public class LocalStorage {
         return instance;
     }
 
-    // Operacje na użytkownikach
     public void addUser(User user) {
+        // Sprawdzenie, czy użytkownik o takim ID już istnieje
+        if (users.stream().anyMatch(existingUser -> existingUser.getId() == user.getId())) {
+            throw new IllegalArgumentException("Użytkownik o podanym ID już istnieje.");
+        }
+
+        // Sprawdzenie, czy adres email jest unikalny
+        if (users.stream().anyMatch(existingUser -> existingUser.getEmail().equalsIgnoreCase(user.getEmail()))) {
+            throw new IllegalArgumentException("Użytkownik o podanym adresie email już istnieje.");
+        }
+
+        // Sprawdzenie poprawności roli użytkownika
+        if (!user.getRole().equalsIgnoreCase("customer") && !user.getRole().equalsIgnoreCase("employee")) {
+            throw new IllegalArgumentException("Nieprawidłowa rola użytkownika. Dozwolone: 'customer', 'employee'.");
+        }
+
+        // Sprawdzenie poprawności hasła (np. minimalna długość)
+        if (user.getPassword() == null || user.getPassword().length() < 1) {
+            throw new IllegalArgumentException("Hasło musi mieć co najmniej 1 znak.");
+        }
+
+        // Dodanie użytkownika do listy
         users.add(user);
     }
+
 
     public List<User> getUsers() {
         return users;
@@ -132,5 +153,12 @@ public class LocalStorage {
         calendar.set(2023, Calendar.NOVEMBER, 25);
         Date endDate2 = calendar.getTime();
         rentals.add(new Rental(2, users.get(1).getId(), equipments.get(1), startDate2, endDate2, costStrategy));
+    }
+
+    public int generateUserId() {
+        return users.stream()
+                .map(User::getId)
+                .max(Integer::compareTo)
+                .orElse(0) + 1;
     }
 }

@@ -1,8 +1,8 @@
 package controller;
 
 import model.ModelFacade;
-import model.done.Equipment;
-import model.done.Rental;
+import model.Equipment;
+import model.Rental;
 
 import java.util.Date;
 import java.util.List;
@@ -52,4 +52,15 @@ public class RentController {
     public boolean rentEquipment(int equipmentId, Date startDate, Date endDate) {
         return modelFacade.rentEquipment(equipmentId, startDate, endDate);
     }
+
+    public Rental findOverlappingRental(int equipmentId, Date startDate, Date endDate) {
+        List<Rental> userRentals = modelFacade.getUserRentalHistory(modelFacade.getLoggedUser().getId());
+        return userRentals.stream()
+                .filter(r -> r.getEquipment().getId() == equipmentId &&
+                        startDate.before(r.getEndDate()) &&
+                        endDate.after(r.getStartDate()))
+                .findFirst()
+                .orElse(null);
+    }
+
 }

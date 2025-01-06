@@ -1,4 +1,4 @@
-package model.done;
+package model;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -32,7 +32,7 @@ public class Rental {
         calculateCost();
     }
 
-//todo poprawic koszt przy przedłuzaniu employee/customer
+
     public double calculateCost() {
         long diffInMillies = endDate.getTime() - startDate.getTime();
         int days = (int) (diffInMillies / (1000 * 60 * 60 * 24));

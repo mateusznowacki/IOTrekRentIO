@@ -1,7 +1,7 @@
 package view;
 
 import controller.ControllerFacade;
-import model.done.Equipment;
+import model.Equipment;
 
 import java.util.List;
 import java.util.Scanner;

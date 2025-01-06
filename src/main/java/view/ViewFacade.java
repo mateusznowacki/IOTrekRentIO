@@ -3,9 +3,9 @@ package view;
 import java.util.Scanner;
 
 public class ViewFacade {
-    private UserAuthView userAuthView;
+    private UserView userView;
     private EquipmentCatalogView equipmentCatalogView;
-    private AddEquipmentView addEquipmentView;
+    private EquipmentView equipmentView;
 
     private EquipmentDetailsView equipmentDetailsView;
     private RentView rentView;
@@ -29,9 +29,9 @@ public class ViewFacade {
             System.out.println("4. Wypożyczanie sprzętu");
             System.out.println("5. Przedłużanie wypożyczenia");
             System.out.println("6. Przeglądanie historii wypożyczeń");
+            System.out.println("7. Dodawanie nowego sprzętu");
 
 //            System.out.println("7. Monitorowanie zwrotów");
-//            System.out.println("8. Dodawanie nowego sprzętu");
 //            System.out.println("9. Usuwanie sprzętu");
 //            System.out.println("10. Blokowanie sprzętu");
 //            System.out.println("11. Rejestrowanie napraw i przeglądów");
@@ -44,18 +44,18 @@ public class ViewFacade {
             int choice = scanner.nextInt();
 
             switch (choice) {
-                case 1 -> userAuthView.loginUser();
-                case 2 -> userAuthView.registerUser();
+                case 1 -> userView.loginUser();
+                case 2 -> userView.registerUser();
                 case 3 -> equipmentCatalogView.displayCatalogue();
                 case 4 -> rentView.displayRentForm();
                 case 5 -> rentView.displayHistoryAndExtendRental();
                 case 6 -> rentView.displayUserRentalHistory();
+                case 7 -> equipmentView.displayAddEquipmentForm();
 
 
 //                case 7 -> extendRentalView.displayAndExtendRentalHistory();
 //                case 8 -> rentView.displayReturnMonitoring();
 //                case 9 -> rentView.displayRentalHistory();
-//                case 10 -> addEquipmentView.displayAddEquipmentForm();
 //                case 11 -> addEquipmentView.removeEquipment();
 //                case 12 -> addEquipmentView.blockEquipment();
 //                case 13 -> addEquipmentView.logMaintenance();
@@ -70,16 +70,16 @@ public class ViewFacade {
     }
 
 
-    public void setUserAuthView(UserAuthView userAuthView) {
-        this.userAuthView = userAuthView;
+    public void setUserAuthView(UserView userView) {
+        this.userView = userView;
     }
 
     public void setEquipmentCatalogView(EquipmentCatalogView equipmentCatalogView) {
         this.equipmentCatalogView = equipmentCatalogView;
     }
 
-    public void setAddEquipmentView(AddEquipmentView addEquipmentView) {
-        this.addEquipmentView = addEquipmentView;
+    public void setAddEquipmentView(EquipmentView equipmentView) {
+        this.equipmentView = equipmentView;
     }
 
 

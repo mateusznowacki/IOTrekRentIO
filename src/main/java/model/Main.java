@@ -1,9 +1,8 @@
 package model;
 
-import controller.AuthController;
+import controller.UserController;
 import controller.ControllerFacade;
 import controller.RentController;
-import model.done.*;
 import view.*;
 
 public class Main {
@@ -25,25 +24,25 @@ public class Main {
 
 
         // Tworzenie instancji
-        AuthController authController = new AuthController(modelFacade);
+        UserController userController = new UserController(modelFacade);
         RentController rentController = new RentController(modelFacade);
-        ControllerFacade controllerFacade = new ControllerFacade(modelFacade, authController, rentController);
+        ControllerFacade controllerFacade = new ControllerFacade(modelFacade, userController, rentController);
 
 
         // Tworzenie widoków
-        UserAuthView userAuthView = new UserAuthView(controllerFacade);
+        UserView userView = new UserView(controllerFacade);
         EquipmentCatalogView equipmentCatalogView = new EquipmentCatalogView(controllerFacade, viewFacade);
-        AddEquipmentView addEquipmentView = new AddEquipmentView();
+        EquipmentView equipmentView = new EquipmentView();
         //ExtendRentalView extendRentalView = new ExtendRentalView(controllerFacade);
         EquipmentDetailsView equipmentDetailsView = new EquipmentDetailsView();
         RentView rentView = new RentView(controllerFacade);
 
-        viewFacade.setAddEquipmentView(addEquipmentView);
+        viewFacade.setAddEquipmentView(equipmentView);
         viewFacade.setEquipmentCatalogView(equipmentCatalogView);
         viewFacade.setRentView(rentView);
        // viewFacade.setExtendRentalView(extendRentalView);
         viewFacade.setEquipmentDetailsView(equipmentDetailsView);
-        viewFacade.setUserAuthView(userAuthView);
+        viewFacade.setUserAuthView(userView);
 
 
         // Wywołanie menu głównego

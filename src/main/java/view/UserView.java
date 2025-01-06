@@ -2,17 +2,17 @@ package view;
 
 
 import controller.ControllerFacade;
-import model.done.User;
+import model.User;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class UserAuthView {
+public class UserView {
     private final ControllerFacade controllerFacade; // Komunikacja z kontrolerem
     private final Scanner scanner = new Scanner(System.in);
 
     // Konstruktor z wstrzykiwaniem zależności
-    public UserAuthView(ControllerFacade controllerFacade) {
+    public UserView(ControllerFacade controllerFacade) {
         this.controllerFacade = controllerFacade;
     }
 
@@ -21,9 +21,8 @@ public class UserAuthView {
         System.out.println("\n=== REJESTRACJA UŻYTKOWNIKA ===");
 
         try {
-            System.out.print("Podaj ID użytkownika: ");
-            int userId = scanner.nextInt();
-            scanner.nextLine(); // Konsumowanie znaku nowej linii
+            // Automatyczne generowanie ID
+            int userId = controllerFacade.generateUserId();
 
             System.out.print("Podaj nazwę użytkownika: ");
             String userName = scanner.nextLine();
@@ -48,9 +47,10 @@ public class UserAuthView {
 
             boolean success = controllerFacade.registerUser(userId, userName, email, role, password);
             if (success) {
-                System.out.println("Rejestracja zakończona pomyślnie!");
+                System.out.println("Rejestracja zakończona pomyślnie! \nNadane ID: " + userId +
+                        " nazwa użytkownika: " + userName + " email: " + email + " rola: " + role);
             } else {
-                System.out.println("Rejestracja nie powiodła się. Użytkownik o podanym ID już istnieje.");
+                System.out.println("Rejestracja nie powiodła się.");
             }
         } catch (Exception e) {
             System.out.println("Błąd podczas rejestracji: " + e.getMessage());

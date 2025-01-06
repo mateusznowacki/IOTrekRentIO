@@ -1,4 +1,4 @@
-package model.done;
+package model;
 
 public interface EquipmentFactory {
     Equipment createBike(String name, String description, double pricePerDay, int gearCount, int quantity);

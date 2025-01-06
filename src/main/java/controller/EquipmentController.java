@@ -4,10 +4,10 @@ import model.ModelFacade;
 
 import java.util.Scanner;
 
-public class AddEquipmentController {
+public class EquipmentController {
     private ModelFacade modelFacade;
 
-    public AddEquipmentController(ModelFacade modelFacade) {
+    public EquipmentController(ModelFacade modelFacade) {
         this.modelFacade = modelFacade;
     }
 

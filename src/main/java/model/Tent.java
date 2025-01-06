@@ -1,4 +1,4 @@
-package model.done;
+package model;
 
 public class Tent extends Equipment {
     private int capacity;

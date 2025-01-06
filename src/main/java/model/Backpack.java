@@ -1,4 +1,4 @@
-package model.done;
+package model;
 
 public class Backpack extends Equipment{
     private int volume;
