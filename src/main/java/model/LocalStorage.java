@@ -68,8 +68,8 @@ public class LocalStorage {
                 .orElse(null);
     }
 
-    public void removeUser(int id) {
-        users.removeIf(user -> user.getId() == id);
+    public boolean removeUser(int id) {
+        return users.removeIf(user -> user.getId() == id);
     }
 
     // Operacje na sprzęcie
@@ -160,5 +160,19 @@ public class LocalStorage {
                 .map(User::getId)
                 .max(Integer::compareTo)
                 .orElse(0) + 1;
+    }
+
+    public boolean editUserRole(int userId, String newRole) {
+        User user = getUserById(userId);
+        if (user == null) {
+            return false;
+        }
+
+        if (!newRole.equalsIgnoreCase("employee") && !newRole.equalsIgnoreCase("customer")) {
+            return false;
+        }
+
+        user.setRole(newRole);
+        return true;
     }
 }

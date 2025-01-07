@@ -88,4 +88,28 @@ public class ControllerFacade {
     public int generateUserId() {
        return userController.generateUserId();
     }
+
+    public boolean handleRemoveEquipment(int equipmentId) {
+        return modelFacade.removeEquipment(equipmentId);
+    }
+
+    public boolean handleBlockEquipment(int equipmentId) {
+        return modelFacade.blockEquipment(equipmentId);
+    }
+
+    public boolean handleRepairEquipment(int equipmentId, String repairDescription) {
+        return modelFacade.repairEquipment(equipmentId, repairDescription);
+    }
+
+    public boolean checkCredentials() {
+        return modelFacade.checkCredentials();
+    }
+
+    public boolean removeUser(int userId) {
+        return modelFacade.removeUser(userId);
+    }
+
+    public boolean editUserRole(int userId, String newRole) {
+        return modelFacade.editUserRole(userId, newRole);
+    }
 }

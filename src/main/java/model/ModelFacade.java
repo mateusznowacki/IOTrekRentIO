@@ -256,4 +256,35 @@ public class ModelFacade {
     public int generateUserId() {
         return storage.generateUserId();
     }
+
+    public boolean blockEquipment(int equipmentId) {
+        Equipment equipment = getEquipmentById(equipmentId);
+        if (equipment == null) {
+            return false;
+        }
+        equipment.setAvailable(false);
+        return true;
+    }
+
+    public boolean repairEquipment(int equipmentId, String repairDescription) {
+        Equipment equipment = getEquipmentById(equipmentId);
+        if (equipment == null) {
+            return false;
+        }
+        equipment.setAvailable(true);
+        equipment.setRepairDescription(repairDescription);
+        return true;
+    }
+
+    public boolean checkCredentials() {
+        return storage.getLoggedUser().isEmployee();
+    }
+
+    public boolean removeUser(int userId) {
+        return storage.removeUser(userId);
+    }
+
+    public boolean editUserRole(int userId, String newRole) {
+        return storage.editUserRole(userId, newRole);
+    }
 }

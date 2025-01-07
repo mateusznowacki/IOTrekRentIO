@@ -30,9 +30,9 @@ public class Main {
 
 
         // Tworzenie widoków
-        UserView userView = new UserView(controllerFacade);
+        UserView userView = new UserView(controllerFacade, viewFacade);
         EquipmentCatalogView equipmentCatalogView = new EquipmentCatalogView(controllerFacade, viewFacade);
-        EquipmentView equipmentView = new EquipmentView();
+        EquipmentView equipmentView = new EquipmentView(controllerFacade, viewFacade);
         //ExtendRentalView extendRentalView = new ExtendRentalView(controllerFacade);
         EquipmentDetailsView equipmentDetailsView = new EquipmentDetailsView();
         RentView rentView = new RentView(controllerFacade);

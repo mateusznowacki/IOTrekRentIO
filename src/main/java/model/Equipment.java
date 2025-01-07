@@ -8,6 +8,7 @@ public class Equipment {
     private String description;
     private double pricePerDay;
     private boolean available;
+    private String repairDescription;
     private int quantity; // Ilość sprzętu
 
     public Equipment(String name, String description, double pricePerDay, int quantity) {
@@ -62,5 +63,10 @@ public class Equipment {
                 ", available=" + available +
                 ", quantity=" + quantity +
                 '}';
+    }
+
+    public void setRepairDescription(String repairDescription) {
+        this.repairDescription = repairDescription;
+
     }
 }

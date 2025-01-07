@@ -17,6 +17,21 @@ public class EquipmentCatalogView {
         this.scanner = new Scanner(System.in);
     }
 
+    public void displayEquipmentWithId(){
+        List<Equipment> availableEquipment = controllerFacade.getAvailableEquipment();
+
+        if (availableEquipment.isEmpty()) {
+            System.out.println("Brak dostępnego sprzętu.");
+        } else {
+            System.out.println("\nKatalog dostępnego sprzętu:");
+            for (Equipment equipment : availableEquipment) {
+                System.out.println("ID: " + equipment.getId() +
+                        ", Nazwa: " + equipment.getName() +
+                        ", Cena za dobę: " + equipment.getPricePerDay());
+            }
+        }
+    }
+
     public void displayCatalogue() {
         List<Equipment> availableEquipment = controllerFacade.getAvailableEquipment();
 

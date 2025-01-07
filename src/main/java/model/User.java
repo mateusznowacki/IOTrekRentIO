@@ -68,7 +68,7 @@ public  class User {
     }
 
     public boolean isEmployee() {
-        if (role.equals("employee")) {
+        if (role.equalsIgnoreCase("EMPLOYEE")) {
             return true;
         }
         return false;

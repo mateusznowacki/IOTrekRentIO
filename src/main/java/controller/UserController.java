@@ -53,7 +53,7 @@ public class UserController {
         }
 
         modelFacade.setLoggedUser(user);
-        System.out.println("Zalogowano pomyślnie: " + user.getName() + " (" + user.getRole() + ")");
+
         return user;
     }
 

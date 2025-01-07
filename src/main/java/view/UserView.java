@@ -10,9 +10,11 @@ import java.util.Scanner;
 public class UserView {
     private final ControllerFacade controllerFacade; // Komunikacja z kontrolerem
     private final Scanner scanner = new Scanner(System.in);
+    private ViewFacade viewFacade;
 
     // Konstruktor z wstrzykiwaniem zależności
-    public UserView(ControllerFacade controllerFacade) {
+    public UserView(ControllerFacade controllerFacade, ViewFacade viewFacade) {
+        this.viewFacade = viewFacade;
         this.controllerFacade = controllerFacade;
     }
 
@@ -72,7 +74,7 @@ public class UserView {
 
             User user = controllerFacade.loginUser(userId, password);
             if (user != null) {
-                System.out.println("Zalogowano pomyślnie jako: " + user.getName() + " (Rola: " + user.getRole() + ")");
+                System.out.println("Zalogowano pomyślnie: " + user.getName() + " id: " + user.getId() + " (" + user.getRole() + ")");
             } else {
                 System.out.println("Nieprawidłowe ID lub hasło.");
             }
@@ -109,4 +111,67 @@ public class UserView {
     private boolean isValidEmail(String email) {
         return email.contains("@") && email.contains(".");
     }
+
+    public void displayUserManagement() {
+
+        if (!controllerFacade.checkCredentials()) {
+            System.out.println("Brak uprawnień do zarządzania sprzętem. Powrót do menu głównego.");
+            return;
+        }
+
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n=== Zarządzanie Użytkownikami ===");
+            System.out.println("1. Dodaj użytkownika");
+            System.out.println("2. Usuń użytkownika");
+            System.out.println("3. Edytuj rolę użytkownika");
+            System.out.println("4. Powrót do głównego menu");
+            System.out.print("Wybierz opcję: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Konsumowanie nowej linii
+
+            switch (choice) {
+                case 1 -> registerUser();
+                case 2 -> removeUser();
+                case 3 -> editUserRole();
+                case 4 -> {
+                    System.out.println("Powrót do głównego menu...");
+                    running = false;
+                }
+                default -> System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
+            }
+        }
+    }
+
+
+    public void removeUser() {
+        Scanner scanner = new Scanner(System.in);
+
+        viewFacade.displayUserList();
+
+        System.out.print("Podaj ID użytkownika do usunięcia: ");
+        int userId = scanner.nextInt();
+
+        boolean success = controllerFacade.removeUser(userId);
+        System.out.println(success ? "Użytkownik został usunięty." : "Błąd: Nie znaleziono użytkownika o podanym ID.");
+    }
+
+    public void editUserRole() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Podaj ID użytkownika do edycji: ");
+        int userId = scanner.nextInt();
+        scanner.nextLine(); // Konsumowanie nowej linii
+
+        System.out.print("Podaj nową rolę dla użytkownika (EMPLOYEE / CUSTOMER): ");
+        String newRole = scanner.nextLine();
+
+        boolean success = controllerFacade.editUserRole(userId, newRole);
+        System.out.println(success ? "Rola użytkownika została zaktualizowana." : "Błąd: Nie znaleziono użytkownika o podanym ID.");
+    }
+
+
 }
+
