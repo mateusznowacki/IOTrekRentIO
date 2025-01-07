@@ -23,50 +23,47 @@ public class ModelFacade {
     }
 
 
-
-    public List<Equipment> getAvailableEquipment() {
-        // Filtruj tylko dostępny sprzęt
-        return storage.getEquipments().stream()
-                .filter(Equipment::isAvailable)
-                .collect(Collectors.toList());
-    }
-
-
-
-    public boolean addBike(String name, String description, double pricePerDay, int gearCount, int quantity) {
-        for (Equipment equipment : storage.getEquipments()) {
-            if (equipment.getName().equalsIgnoreCase(name)) {
-                return false; // Sprzęt o podanej nazwie już istnieje
-            }
-        }
-        Equipment bike = regularEquipmentFactory.createBike(name, description, pricePerDay, gearCount, quantity);
-        storage.getEquipments().add(bike);
-        return true;
-    }
-
-    public boolean addTent(String name, String description, double pricePerDay, int capacity, int quantity) {
-        for (Equipment equipment : storage.getEquipments()) {
-            if (equipment.getName().equalsIgnoreCase(name)) {
-                return false; // Sprzęt o podanej nazwie już istnieje
-            }
-        }
-        Equipment tent = regularEquipmentFactory.createTent(name, description, pricePerDay, capacity, quantity);
-        storage.getEquipments().add(tent);
-        return true;
-    }
-
-    public boolean addBackpack(String name, String description, double pricePerDay, int volume, int quantity) {
-        for (Equipment equipment : storage.getEquipments()) {
-            if (equipment.getName().equalsIgnoreCase(name)) {
-                return false; // Sprzęt o podanej nazwie już istnieje
-            }
-        }
-        Equipment backpack = regularEquipmentFactory.createBackpack(name, description, pricePerDay, volume, quantity);
-        storage.getEquipments().add(backpack);
-        return true;
-    }
-
-
+//    public List<Equipment> getAvailableEquipment() {
+//        // Filtruj tylko dostępny sprzęt
+//        return storage.getEquipments().stream()
+//                .filter(Equipment::isAvailable)
+//                .collect(Collectors.toList());
+//    }
+//
+//
+//
+//    public boolean addBike(String name, String description, double pricePerDay, int gearCount, int quantity) {
+//        for (Equipment equipment : storage.getEquipments()) {
+//            if (equipment.getName().equalsIgnoreCase(name)) {
+//                return false; // Sprzęt o podanej nazwie już istnieje
+//            }
+//        }
+//        Equipment bike = regularEquipmentFactory.createBike(name, description, pricePerDay, gearCount, quantity);
+//        storage.getEquipments().add(bike);
+//        return true;
+//    }
+//
+//    public boolean addTent(String name, String description, double pricePerDay, int capacity, int quantity) {
+//        for (Equipment equipment : storage.getEquipments()) {
+//            if (equipment.getName().equalsIgnoreCase(name)) {
+//                return false; // Sprzęt o podanej nazwie już istnieje
+//            }
+//        }
+//        Equipment tent = regularEquipmentFactory.createTent(name, description, pricePerDay, capacity, quantity);
+//        storage.getEquipments().add(tent);
+//        return true;
+//    }
+//
+//    public boolean addBackpack(String name, String description, double pricePerDay, int volume, int quantity) {
+//        for (Equipment equipment : storage.getEquipments()) {
+//            if (equipment.getName().equalsIgnoreCase(name)) {
+//                return false; // Sprzęt o podanej nazwie już istnieje
+//            }
+//        }
+//        Equipment backpack = regularEquipmentFactory.createBackpack(name, description, pricePerDay, volume, quantity);
+//        storage.getEquipments().add(backpack);
+//        return true;
+//    }
 
 
 
