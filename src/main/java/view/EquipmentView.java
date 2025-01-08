@@ -4,7 +4,7 @@ import controller.ControllerFacade;
 
 import java.util.Scanner;
 
-public class EquipmentView {
+public class  EquipmentView {
     private ControllerFacade controllerFacade;
     private ViewFacade viewFacade;
     private Scanner scanner = new Scanner(System.in);
