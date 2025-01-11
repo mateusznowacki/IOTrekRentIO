@@ -15,10 +15,11 @@
     </properties>
 
     <dependencies>
+        <!-- JUnit -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.10.0</version> <!-- Upewnij się, że używasz najnowszej wersji -->
+            <version>5.10.0</version> <!-- Użyj najnowszej wersji -->
             <scope>test</scope>
         </dependency>
 
@@ -26,7 +27,7 @@
         <dependency>
             <groupId>org.jmockit</groupId>
             <artifactId>jmockit</artifactId>
-            <version>1.49</version>
+            <version>1.49</version> <!-- Użyj najnowszej wersji -->
             <scope>test</scope>
         </dependency>
     </dependencies>
