@@ -7,15 +7,16 @@ public class ViewFacade {
     private EquipmentCatalogView equipmentCatalogView;
     private EquipmentView equipmentView;
 
-    private EquipmentDetailsView equipmentDetailsView;
+
     private RentView rentView;
 
-    public ViewFacade(){
+    public ViewFacade() {
 
     }
-     public void displayRentForm(){
-         rentView.displayRentForm();
-     }
+
+    public void displayRentForm() {
+        rentView.displayRentForm();
+    }
 
     public void displayMainMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -68,11 +69,6 @@ public class ViewFacade {
         this.equipmentView = equipmentView;
     }
 
-
-
-    public void setEquipmentDetailsView(EquipmentDetailsView equipmentDetailsView) {
-        this.equipmentDetailsView = equipmentDetailsView;
-    }
 
     public void setRentView(RentView rentView) {
         this.rentView = rentView;

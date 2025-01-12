@@ -34,14 +34,14 @@ public class Main {
         EquipmentCatalogView equipmentCatalogView = new EquipmentCatalogView(controllerFacade, viewFacade);
         EquipmentView equipmentView = new EquipmentView(controllerFacade, viewFacade);
         //ExtendRentalView extendRentalView = new ExtendRentalView(controllerFacade);
-        EquipmentDetailsView equipmentDetailsView = new EquipmentDetailsView();
+      //  EquipmentDetailsView equipmentDetailsView = new EquipmentDetailsView();
         RentView rentView = new RentView(controllerFacade);
 
         viewFacade.setAddEquipmentView(equipmentView);
         viewFacade.setEquipmentCatalogView(equipmentCatalogView);
         viewFacade.setRentView(rentView);
        // viewFacade.setExtendRentalView(extendRentalView);
-        viewFacade.setEquipmentDetailsView(equipmentDetailsView);
+       // viewFacade.setEquipmentDetailsView(equipmentDetailsView);
         viewFacade.setUserAuthView(userView);
 
 

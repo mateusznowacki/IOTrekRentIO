@@ -22,7 +22,7 @@ public class ModelFacade {
         this.regularEquipmentFactory = regularEquipmentFactory;
         this.regularRentalFactory = regularRentalFactory;
         this.discountedRentalFactory = discountedRentalFactory;
-        this.storage = LocalStorage.getInstance();
+        this.storage = new LocalStorage();
         this.equipmentService = new EquipmentService(storage, regularEquipmentFactory, sportEquipmentFactory);
         this.userService = new UserService(storage);
         this.rentalService = new RentalService(storage,userService, regularRentalFactory, discountedRentalFactory, equipmentService);

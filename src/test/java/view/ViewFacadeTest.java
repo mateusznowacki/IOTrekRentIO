@@ -1,46 +1,43 @@
 package view;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 class ViewFacadeTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void displayRentForm() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void displayMainMenu() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setUserAuthView() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setEquipmentCatalogView() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setAddEquipmentView() {
     }
 
-    @org.junit.jupiter.api.Test
-    void setEquipmentDetailsView() {
-    }
-
-    @org.junit.jupiter.api.Test
+    @Test
     void setRentView() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void displayEquipmentCatalogue() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void displayEquipmentWithId() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void displayUserList() {
     }
 }

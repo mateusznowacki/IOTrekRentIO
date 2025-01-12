@@ -15,7 +15,7 @@ class LocalStorageTest {
     @BeforeEach
     void setUp() {
         // Inicjalizacja instancji LocalStorage przed każdym testem
-        localStorage = LocalStorage.getInstance();
+        localStorage = new LocalStorage();
 
         // Tworzenie przykładowych użytkowników
         User user1 = new User(1, "Jan Kowalski", "jan.kowalski@example.com", "customer", "password1");
@@ -86,7 +86,7 @@ class LocalStorageTest {
 
         // Sprawdzenie, czy liczba sprzętu jest poprawna po dodaniu
         assertEquals(3, localStorage.getEquipments().size(), "Powinno być 3 sprzęty.");
-        assertEquals("Plecak turystyczny", localStorage.getEquipmentById(15).getName(), "Nazwa sprzętu powinna być poprawna.");
+        assertEquals("Plecak turystyczny", localStorage.getEquipmentById(newEquipment.getId()).getName(), "Nazwa sprzętu powinna być poprawna.");
     }
 
     @Test

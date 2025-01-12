@@ -7,7 +7,6 @@ import java.util.List;
 
 public class LocalStorage {
     // Statyczna instancja klasy - jedyna w całym systemie
-    private static LocalStorage instance;
 
     private final List<Equipment> equipments; // Lista dostępnego sprzętu
     private final List<Rental> rentals;       // Lista wynajmów
@@ -15,21 +14,13 @@ public class LocalStorage {
     private User loggedUser;            // Zalogowany użytkownik
 
     // Prywatny konstruktor dla Singletona
-    private LocalStorage() {
+    public LocalStorage() {
         this.equipments = new ArrayList<>();
         this.rentals = new ArrayList<>();
         this.users = new ArrayList<>();
         this.loggedUser = null;
     }
 
-    // Metoda do pobrania jedynej instancji klasy
-    public static synchronized LocalStorage getInstance() {
-        if (instance == null) {
-            instance = new LocalStorage();
-          //  instance.initializeData();
-        }
-        return instance;
-    }
 
     public void addUser(User user) {
         // Sprawdzenie, czy użytkownik o takim ID już istnieje
@@ -175,4 +166,6 @@ public class LocalStorage {
         user.setRole(newRole);
         return true;
     }
+
+
 }
