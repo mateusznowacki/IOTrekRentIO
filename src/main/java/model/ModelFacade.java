@@ -23,6 +23,7 @@ public class ModelFacade {
         this.regularRentalFactory = regularRentalFactory;
         this.discountedRentalFactory = discountedRentalFactory;
         this.storage = new LocalStorage();
+        storage.initializeData();
         this.equipmentService = new EquipmentService(storage, regularEquipmentFactory, sportEquipmentFactory);
         this.userService = new UserService(storage);
         this.rentalService = new RentalService(storage,userService, regularRentalFactory, discountedRentalFactory, equipmentService);
@@ -160,5 +161,13 @@ public class ModelFacade {
     }
     public boolean addSportBackpack(String name, String description, double pricePerDay, int gearCount, int quantity) {
         return equipmentService.addSportBackpack(name, description, pricePerDay, gearCount, quantity);
+    }
+
+    public List<Rental> getAllRentals() {
+        return rentalService.getAllRentals();
+    }
+
+    public boolean returnEquipment(int rentalId) {
+        return rentalService.returnEquipment(rentalId);
     }
 }

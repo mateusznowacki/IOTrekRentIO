@@ -187,6 +187,35 @@ public class RentView {
             System.out.println("Anulowano przedłużenie.");
         }
     }
+
+    public void displayAllRentals() {
+        List<Rental> rentals = controllerFacade.getAllRentals();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        if (rentals.isEmpty()) {
+            System.out.println("Brak historii wypożyczeń.");
+            return;
+        }
+
+        System.out.println("=== Historia Wypożyczeń ===");
+        System.out.printf("%-5s %-20s %-20s %-20s %-10s\n", "LP", "Sprzęt", "Data Wypożyczenia", "Data Zwrotu", "Koszt");
+        System.out.println("--------------------------------------------------------------------------");
+
+        int lp = 1;
+        for (Rental rental : rentals) {
+            String startDate = dateFormat.format(rental.getStartDate());
+            String endDate = dateFormat.format(rental.getEndDate());
+            double cost = rental.calculateCost();
+
+            System.out.printf("%-5d %-20s %-20s %-20s %-10.2f\n",
+                    lp,
+                    rental.getEquipment().getName(),
+                    startDate,
+                    endDate,
+                    cost);
+            lp++;
+        }
+    }
 }
 
 

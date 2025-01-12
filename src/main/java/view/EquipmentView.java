@@ -139,7 +139,8 @@ public class EquipmentView {
             System.out.println("2. Usuń sprzęt");
             System.out.println("3. Zablokuj sprzęt ");
             System.out.println("4. Oznacz sprzęt jako naprawiony");
-            System.out.println("5. Powrót do głównego menu");
+          //  System.out.println("5. Zwróć sprzęt");
+            System.out.println("0. Powrót do głównego menu");
             System.out.print("Wybierz opcję: ");
 
             int choice = scanner.nextInt();
@@ -162,7 +163,11 @@ public class EquipmentView {
                     System.out.println("\nLogowanie naprawy...");
                     logMaintenance();
                 }
-                case 5 -> {
+//                case 5 -> {
+//                    System.out.println("\nZwracanie sprzętu...");
+//                    returnEquipment();
+//                }
+                case 0 -> {
                     System.out.println("Powrót do głównego menu...");
                     running = false;
                 }
@@ -170,4 +175,17 @@ public class EquipmentView {
             }
         }
     }
-}
+
+    private void returnEquipment() {
+            viewFacade.displayAllRentals();
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Podaj ID wypozyczenia  do zwrotu: ");
+            int rentalId = scanner.nextInt();
+
+            // Tutaj zaimplementuj logikę usuwania sprzętu w modelu lub bazie danych
+            boolean success = controllerFacade.handleReturnEquipment(rentalId);
+            System.out.println(success ? "Sprzęt został usunięty." : "Błąd: Nie znaleziono sprzętu o podanym ID.");
+        }
+
+    }
+

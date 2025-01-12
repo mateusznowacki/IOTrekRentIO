@@ -85,4 +85,8 @@ public class ViewFacade {
     public void displayUserList() {
         userView.displayUserList();
     }
+
+    public void displayAllRentals() {
+        rentView.displayAllRentals();
+    }
 }

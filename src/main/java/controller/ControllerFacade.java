@@ -122,4 +122,12 @@ public class ControllerFacade {
     public boolean addSportBackpack(String name, String description, double pricePerDay, int gearCount, int quantity) {
         return modelFacade.addSportBackpack(name, description, pricePerDay, gearCount, quantity);
     }
+
+    public List<Rental> getAllRentals() {
+       return modelFacade.getAllRentals();
+    }
+
+    public boolean handleReturnEquipment(int rentalId) {
+        return modelFacade.returnEquipment(rentalId);
+    }
 }

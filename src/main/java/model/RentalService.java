@@ -136,4 +136,14 @@ public class RentalService {
                 .orElseThrow(() -> new IllegalArgumentException("Wypożyczenie o podanym ID nie istnieje."));
     }
 
+    public List<Rental> getAllRentals() {
+        return storage.getRentals();
+    }
+
+    public boolean returnEquipment(int rentalId) {
+        Rental rental = getRentalById(rentalId);
+
+        rental.getEquipment().setAvailable(true);
+        return true;
+    }
 }

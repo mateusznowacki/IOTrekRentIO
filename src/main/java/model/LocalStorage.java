@@ -112,39 +112,39 @@ public class LocalStorage {
     }
 
 
-//    private void initializeData() {
-//        // Dodawanie użytkowników
-//        users.add(new User(1, "Jan Kowalski", "jan.kowalski@example.com", "CUSTOMER", "1"));
-//        users.add(new User(2, "Anna Nowak", "anna.nowak@example.com", "EMPLOYEE", "1"));
-//        users.add(new User(3, "Piotr Zieliński", "piotr.zielinski@example.com", "EMPLOYEE", "1"));
-//
-//        // Ustawienie zalogowanego użytkownika
-//        loggedUser = users.get(0); // Jan Kowalski jest domyślnie zalogowany
-//
-//        // Dodawanie sprzętu
-//        equipments.add(new Equipment("aa", "Rower górski", 50.0, 20));
-//        equipments.add(new Equipment("bb", "Namiot kempingowy", 30.0, 20));
-//        equipments.add(new Equipment("cc", "Plecak turystyczny", 20.0, 20)); // Niedostępny
-//
-//        // Dodawanie wynajmów
-//        RentalCostStrategy costStrategy = (days, pricePerDay) -> days * pricePerDay; // Prosta strategia kosztów
-//
-//        Calendar calendar = Calendar.getInstance();
-//
-//        // Wynajem dla użytkownika 1
-//        calendar.set(2023, Calendar.DECEMBER, 1);
-//        Date startDate1 = calendar.getTime();
-//        calendar.set(2023, Calendar.DECEMBER, 5);
-//        Date endDate1 = calendar.getTime();
-//        rentals.add(new Rental(1, users.get(0).getId(), equipments.get(0), startDate1, endDate1, costStrategy));
-//
-//        // Wynajem dla użytkownika 2
-//        calendar.set(2023, Calendar.NOVEMBER, 20);
-//        Date startDate2 = calendar.getTime();
-//        calendar.set(2023, Calendar.NOVEMBER, 25);
-//        Date endDate2 = calendar.getTime();
-//        rentals.add(new Rental(2, users.get(1).getId(), equipments.get(1), startDate2, endDate2, costStrategy));
-//    }
+    public void initializeData() {
+        // Dodawanie użytkowników
+        users.add(new User(1, "Jan Kowalski", "jan.kowalski@example.com", "CUSTOMER", "1"));
+        users.add(new User(2, "Anna Nowak", "anna.nowak@example.com", "EMPLOYEE", "1"));
+        users.add(new User(3, "Piotr Zieliński", "piotr.zielinski@example.com", "EMPLOYEE", "1"));
+
+        // Ustawienie zalogowanego użytkownika
+        loggedUser = users.get(0); // Jan Kowalski jest domyślnie zalogowany
+
+        // Dodawanie sprzętu
+        equipments.add(new Equipment("aa", "Rower górski", 50.0, 20));
+        equipments.add(new Equipment("bb", "Namiot kempingowy", 30.0, 20));
+        equipments.add(new Equipment("cc", "Plecak turystyczny", 20.0, 20)); // Niedostępny
+
+        // Dodawanie wynajmów
+        RentalCostStrategy costStrategy = (days, pricePerDay) -> days * pricePerDay; // Prosta strategia kosztów
+
+        Calendar calendar = Calendar.getInstance();
+
+        // Wynajem dla użytkownika 1
+        calendar.set(2023, Calendar.DECEMBER, 1);
+        Date startDate1 = calendar.getTime();
+        calendar.set(2023, Calendar.DECEMBER, 5);
+        Date endDate1 = calendar.getTime();
+        rentals.add(new Rental(1, users.get(0).getId(), equipments.get(0), startDate1, endDate1, costStrategy));
+
+        // Wynajem dla użytkownika 2
+        calendar.set(2023, Calendar.NOVEMBER, 20);
+        Date startDate2 = calendar.getTime();
+        calendar.set(2023, Calendar.NOVEMBER, 25);
+        Date endDate2 = calendar.getTime();
+        rentals.add(new Rental(2, users.get(1).getId(), equipments.get(1), startDate2, endDate2, costStrategy));
+    }
 
     public int generateUserId() {
         return users.stream()
