@@ -71,10 +71,7 @@ public  class User {
     }
 
     public boolean isEmployee() {
-        if (role.equalsIgnoreCase("EMPLOYEE")) {
-            return true;
-        }
-        return false;
+        return role.equalsIgnoreCase("EMPLOYEE");
     }
 
     public String getPassword() {

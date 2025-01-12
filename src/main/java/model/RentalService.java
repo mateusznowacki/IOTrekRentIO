@@ -6,11 +6,11 @@ import java.util.List;
 
 public class RentalService {
 
-    private LocalStorage storage;
-    private UserService userService;
-    private EquipmentService equipmentService;
-    private RentalFactory regularRentalFactory;
-    private RentalFactory discountedRentalFactory;
+    private final LocalStorage storage;
+    private final UserService userService;
+    private final EquipmentService equipmentService;
+    private final RentalFactory regularRentalFactory;
+    private final RentalFactory discountedRentalFactory;
 
     public RentalService(LocalStorage storage, UserService userService, RentalFactory regularRentalFactory,
                          RentalFactory discountedRentalFactory, EquipmentService equipmentService) {

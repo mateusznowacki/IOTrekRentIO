@@ -5,7 +5,7 @@ import model.ModelFacade;
 import java.util.Scanner;
 
 public class EquipmentController {
-    private ModelFacade modelFacade;
+    private final ModelFacade modelFacade;
 
     public EquipmentController(ModelFacade modelFacade) {
         this.modelFacade = modelFacade;

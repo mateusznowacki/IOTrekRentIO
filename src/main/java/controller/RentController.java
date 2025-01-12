@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 public class RentController {
-    private ModelFacade modelFacade;
+    private final ModelFacade modelFacade;
 
     public RentController(ModelFacade modelFacade) {
         this.modelFacade = modelFacade;

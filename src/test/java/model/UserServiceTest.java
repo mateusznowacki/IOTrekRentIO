@@ -51,7 +51,7 @@ class UserServiceTest {
         // Mockowanie zachowania LocalStorage
         new Expectations() {{
             localStorage.getUsers();
-            result = Arrays.asList(user);
+            result = List.of(user);
         }};
 
         UserService userService = new UserService(localStorage);

@@ -9,9 +9,9 @@ import java.util.Date;
 import java.util.List;
 
 public class ControllerFacade {
-    private ModelFacade modelFacade;
-    private RentController rentController;
-    private UserController userController;
+    private final ModelFacade modelFacade;
+    private final RentController rentController;
+    private final UserController userController;
 
     public ControllerFacade(ModelFacade modelFacade, UserController userController, RentController rentController) {
         this.modelFacade = modelFacade;
@@ -111,5 +111,15 @@ public class ControllerFacade {
 
     public boolean editUserRole(int userId, String newRole) {
         return modelFacade.editUserRole(userId, newRole);
+    }
+
+    public boolean addSportBike(String name, String description, double pricePerDay, int gearCount, int quantity) {
+        return modelFacade.addSportBike(name, description, pricePerDay, gearCount, quantity);
+    }
+    public boolean addSportTent(String name, String description, double pricePerDay, int gearCount, int quantity) {
+        return modelFacade.addSportTent(name, description, pricePerDay, gearCount, quantity);
+    }
+    public boolean addSportBackpack(String name, String description, double pricePerDay, int gearCount, int quantity) {
+        return modelFacade.addSportBackpack(name, description, pricePerDay, gearCount, quantity);
     }
 }

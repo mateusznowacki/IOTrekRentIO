@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EquipmentCatalogView {
-    private ControllerFacade controllerFacade;
-    private ViewFacade viewFacade;
-    private Scanner scanner;
+    private final ControllerFacade controllerFacade;
+    private final ViewFacade viewFacade;
+    private final Scanner scanner;
 
     public EquipmentCatalogView(ControllerFacade controllerFacade, ViewFacade viewFacade) {
         this.controllerFacade = controllerFacade;

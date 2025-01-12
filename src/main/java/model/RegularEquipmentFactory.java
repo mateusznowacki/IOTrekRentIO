@@ -8,12 +8,12 @@ public class RegularEquipmentFactory implements EquipmentFactory {
 
     @Override
     public Equipment createTent(String name, String description, double pricePerDay, int capacity, int quantity) {
-        return new Tent(name,description,pricePerDay,capacity,quantity);
+        return new Tent(name,description,pricePerDay,quantity,capacity);
     }
 
     @Override
     public Equipment createBackpack(String name, String description, double pricePerDay, int volume, int quantity) {
-     return  new Backpack(name ,description,pricePerDay,volume,quantity);
+     return  new Backpack(name ,description,pricePerDay,quantity,volume);
     }
 }
 

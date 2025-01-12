@@ -1,7 +1,7 @@
 package model;
 
 public class Tent extends Equipment {
-    private int capacity;
+    private final int capacity;
 
     public Tent(String name, String description, double pricePerDay, int quantity, int capacity) {
         super(name, description, pricePerDay, quantity);

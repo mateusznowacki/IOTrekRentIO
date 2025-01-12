@@ -1,7 +1,7 @@
 package model;
 
 public class Bike extends Equipment {
-    private int gearCount;
+    private final int gearCount;
 
     public Bike(String name, String description, double pricePerDay, int quantity, int gearCount) {
         super(name, description, pricePerDay, quantity);

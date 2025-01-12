@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class RentView {
-    private ControllerFacade controllerFacade;
+    private final ControllerFacade controllerFacade;
     private ViewFacade viewFacade;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public RentView(ControllerFacade controllerFacade) {
         this.controllerFacade = controllerFacade;

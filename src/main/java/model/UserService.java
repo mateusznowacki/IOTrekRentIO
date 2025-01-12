@@ -4,7 +4,7 @@ import java.util.List;
 
 public class UserService {
 
-    private LocalStorage storage;
+    private final LocalStorage storage;
 
     public UserService(LocalStorage localStorage) {
         this.storage = localStorage;

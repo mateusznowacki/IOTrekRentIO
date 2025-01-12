@@ -4,9 +4,9 @@ public class Equipment {
     private static int idCounter = 0;
 
     private int id;
-    private String name;
-    private String description;
-    private double pricePerDay;
+    private final String name;
+    private final String description;
+    private final double pricePerDay;
     private boolean available;
     private String repairDescription;
     private int quantity; // Ilość sprzętu
@@ -68,5 +68,13 @@ public class Equipment {
     public void setRepairDescription(String repairDescription) {
         this.repairDescription = repairDescription;
 
+    }
+
+    public String getRepairDescription() {
+        return repairDescription;
+    }
+
+    public void setId(int i) {
+        this.id = i;
     }
 }

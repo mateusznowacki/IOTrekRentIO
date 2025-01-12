@@ -1,16 +1,12 @@
 package model;
 
-import model.Equipment;
-import model.EquipmentFactory;
-import model.LocalStorage;
-
 import java.util.List;
 import java.util.stream.Collectors;
-//todo kiedy sporotwy
+
 public class EquipmentService {
-    private LocalStorage storage;
-    private EquipmentFactory regularEquipmentFactory;
-    private EquipmentFactory sportEquipmentFactory;
+    private final LocalStorage storage;
+    private final EquipmentFactory regularEquipmentFactory;
+    private final EquipmentFactory sportEquipmentFactory;
 
     public EquipmentService(LocalStorage storage, EquipmentFactory regularEquipmentFactory, EquipmentFactory sportEquipmentFactory) {
         this.storage = storage;
@@ -42,7 +38,7 @@ public class EquipmentService {
                 return false; // Sprzęt o podanej nazwie już istnieje
             }
         }
-        Equipment tent = regularEquipmentFactory.createTent(name, description, pricePerDay, capacity, quantity);
+        Equipment tent = regularEquipmentFactory.createTent(name, description, pricePerDay, quantity, capacity);
         storage.getEquipments().add(tent);
         return true;
     }
@@ -53,7 +49,7 @@ public class EquipmentService {
                 return false; // Sprzęt o podanej nazwie już istnieje
             }
         }
-        Equipment backpack = regularEquipmentFactory.createBackpack(name, description, pricePerDay, volume, quantity);
+        Equipment backpack = regularEquipmentFactory.createBackpack(name, description, pricePerDay, quantity, volume);
         storage.getEquipments().add(backpack);
         return true;
     }
@@ -110,7 +106,36 @@ public class EquipmentService {
     }
 
 
+    public boolean addSportBike(String name, String description, double pricePerDay, int gearCount, int quantity) {
+        for (Equipment equipment : storage.getEquipments()) {
+            if (equipment.getName().equalsIgnoreCase(name)) {
+                return false; // Sprzęt o podanej nazwie już istnieje
+            }
+        }
+        Equipment bike = sportEquipmentFactory.createBike(name, description, pricePerDay, gearCount, quantity);
+        storage.getEquipments().add(bike);
+        return true;
+    }
 
+    public boolean addSportTent(String name, String description, double pricePerDay, int gearCount, int quantity) {
+        for (Equipment equipment : storage.getEquipments()) {
+            if (equipment.getName().equalsIgnoreCase(name)) {
+                return false; // Sprzęt o podanej nazwie już istnieje
+            }
+        }
+        Equipment tent = sportEquipmentFactory.createTent(name, description, pricePerDay, gearCount, quantity);
+        storage.getEquipments().add(tent);
+        return true;
+    }
 
-
+    public boolean addSportBackpack(String name, String description, double pricePerDay, int gearCount, int quantity) {
+        for (Equipment equipment : storage.getEquipments()) {
+            if (equipment.getName().equalsIgnoreCase(name)) {
+                return false; // Sprzęt o podanej nazwie już istnieje
+            }
+        }
+        Equipment backpack = sportEquipmentFactory.createBackpack(name, description, pricePerDay, gearCount, quantity);
+        storage.getEquipments().add(backpack);
+        return true;
+    }
 }

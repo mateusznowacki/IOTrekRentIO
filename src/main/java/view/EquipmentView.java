@@ -4,17 +4,17 @@ import controller.ControllerFacade;
 
 import java.util.Scanner;
 
-public class  EquipmentView {
-    private ControllerFacade controllerFacade;
-    private ViewFacade viewFacade;
-    private Scanner scanner = new Scanner(System.in);
+public class EquipmentView {
+    private final ControllerFacade controllerFacade;
+    private final ViewFacade viewFacade;
+    private final Scanner scanner = new Scanner(System.in);
 
     public EquipmentView(ControllerFacade controllerFacade, ViewFacade viewFacade) {
         this.controllerFacade = controllerFacade;
         this.viewFacade = viewFacade;
     }
 
-      public void displayAddEquipmentForm() {
+    public void displayAddEquipmentForm() {
         System.out.println("\n=== Formularz Dodawania Sprzętu ===");
         System.out.println("Wybierz typ sprzętu do dodania:");
         System.out.println("1. Rower");
@@ -37,27 +37,53 @@ public class  EquipmentView {
         System.out.print("Podaj ilość sprzętu: ");
         int quantity = scanner.nextInt();
 
+        System.out.print("Podaj typ 1. Normalny 2. Sporotwy: ");
+        int type = scanner.nextInt();
+
         switch (choice) {
             case 1 -> {
                 System.out.print("Podaj liczbę biegów w rowerze: ");
                 int gearCount = scanner.nextInt();
-                boolean success = controllerFacade.addBike(name, description, pricePerDay, gearCount, quantity);
-                System.out.println(success ? "Rower został dodany!" : "Błąd: Rower o podanej nazwie już istnieje.");
+                if (type == 1) { // Zwykły rower
+                    boolean success = controllerFacade.addBike(name, description, pricePerDay, gearCount, quantity);
+                    System.out.println(success ? "Rower został dodany!" : "Błąd: Rower o podanej nazwie już istnieje.");
+                } else if (type == 2) { // Sportowy rower
+                    boolean success = controllerFacade.addSportBike(name, description, pricePerDay, gearCount, quantity);
+                    System.out.println(success ? "Rower sportowy został dodany!" : "Błąd: Rower sportowy o podanej nazwie już istnieje.");
+                } else {
+                    System.out.println("Nieprawidłowy typ roweru.");
+                }
             }
             case 2 -> {
                 System.out.print("Podaj liczbę osób, które mogą spać w namiocie: ");
                 int capacity = scanner.nextInt();
-                boolean success = controllerFacade.addTent(name, description, pricePerDay, capacity, quantity);
-                System.out.println(success ? "Namiot został dodany!" : "Błąd: Namiot o podanej nazwie już istnieje.");
+                if (type == 1) { // Namiot standardowy
+                    boolean success = controllerFacade.addTent(name, description, pricePerDay, capacity, quantity);
+                    System.out.println(success ? "Namiot został dodany!" : "Błąd: Namiot o podanej nazwie już istnieje.");
+                } else if (type == 2) { // Namiot sportowy
+                    boolean success = controllerFacade.addSportTent(name, description, pricePerDay, capacity, quantity);
+                    System.out.println(success ? "Namiot sportowy został dodany!" : "Błąd: Namiot sportowy o podanej nazwie już istnieje.");
+                } else {
+                    System.out.println("Nieprawidłowy typ namiotu.");
+                }
             }
             case 3 -> {
                 System.out.print("Podaj pojemność plecaka (w litrach): ");
                 int volume = scanner.nextInt();
-                boolean success = controllerFacade.addBackpack(name, description, pricePerDay, volume, quantity);
-                System.out.println(success ? "Plecak został dodany!" : "Błąd: Plecak o podanej nazwie już istnieje.");
+                if (type == 1) { // Plecak turystyczny
+                    boolean success = controllerFacade.addBackpack(name, description, pricePerDay, volume, quantity);
+                    System.out.println(success ? "Plecak turystyczny został dodany!" : "Błąd: Plecak turystyczny o podanej nazwie już istnieje.");
+                } else if (type == 2) { // Plecak sportowy
+                    boolean success = controllerFacade.addSportBackpack(name, description, pricePerDay, volume, quantity);
+                    System.out.println(success ? "Plecak sportowy został dodany!" : "Błąd: Plecak sportowy o podanej nazwie już istnieje.");
+                } else {
+                    System.out.println("Nieprawidłowy typ plecaka.");
+                }
             }
             default -> System.out.println("Nieprawidłowy wybór.");
         }
+
+
     }
 
 

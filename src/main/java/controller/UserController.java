@@ -6,7 +6,7 @@ import model.User;
 import java.util.List;
 
 public class UserController {
-    private ModelFacade modelFacade;
+    private final ModelFacade modelFacade;
 
     public UserController(ModelFacade modelFacade) {
         this.modelFacade = modelFacade;

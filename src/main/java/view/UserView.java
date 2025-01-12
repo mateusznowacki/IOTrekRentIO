@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class UserView {
     private final ControllerFacade controllerFacade; // Komunikacja z kontrolerem
     private final Scanner scanner = new Scanner(System.in);
-    private ViewFacade viewFacade;
+    private final ViewFacade viewFacade;
 
     // Konstruktor z wstrzykiwaniem zależności
     public UserView(ControllerFacade controllerFacade, ViewFacade viewFacade) {

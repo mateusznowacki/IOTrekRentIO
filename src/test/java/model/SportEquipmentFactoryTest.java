@@ -50,15 +50,20 @@ class SportEquipmentFactoryTest {
 
     @Test
     void testCreateBackpack() {
+        // Przygotowanie danych testowych
         String name = "Hiking Backpack";
         String description = "Spacious backpack with multiple compartments";
         double pricePerDay = 20.0;
         int volume = 40;
         int quantity = 15;
 
+        // Tworzenie fabryki
         SportEquipmentFactory factory = new SportEquipmentFactory();
+
+        // Wywołanie metody createBackpack
         Equipment backpack = factory.createBackpack(name, description, pricePerDay, volume, quantity);
 
+        // Weryfikacja obiektu Backpack
         assertNotNull(backpack);
         assertEquals(name, backpack.getName());
         assertEquals(description, backpack.getDescription());
@@ -66,5 +71,4 @@ class SportEquipmentFactoryTest {
         assertEquals(volume, ((Backpack) backpack).getVolume());
         assertEquals(quantity, backpack.getQuantity());
     }
-
 }

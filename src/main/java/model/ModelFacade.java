@@ -7,14 +7,14 @@ import java.util.stream.Collectors;
 
 public class ModelFacade {
 
-    private LocalStorage storage;
-    private EquipmentFactory sportEquipmentFactory;
-    private EquipmentFactory regularEquipmentFactory;
-    private RentalFactory regularRentalFactory;
-    private RentalFactory discountedRentalFactory;
-    private EquipmentService equipmentService;
-    private UserService userService;
-    private RentalService rentalService;
+    private final LocalStorage storage;
+    private final EquipmentFactory sportEquipmentFactory;
+    private final EquipmentFactory regularEquipmentFactory;
+    private final RentalFactory regularRentalFactory;
+    private final RentalFactory discountedRentalFactory;
+    private final EquipmentService equipmentService;
+    private final UserService userService;
+    private final RentalService rentalService;
 
     public ModelFacade(EquipmentFactory sportEquipmentFactory, EquipmentFactory regularEquipmentFactory,
                        RentalFactory regularRentalFactory, RentalFactory discountedRentalFactory) {
@@ -150,5 +150,15 @@ public class ModelFacade {
 
     public boolean editUserRole(int userId, String newRole) {
         return userService.editUserRole(userId, newRole);
+    }
+
+    public boolean addSportBike(String name, String description, double pricePerDay, int gearCount, int quantity) {
+        return equipmentService.addSportBike(name, description, pricePerDay, gearCount, quantity);
+    }
+    public boolean addSportTent(String name, String description, double pricePerDay, int gearCount, int quantity) {
+        return equipmentService.addSportTent(name, description, pricePerDay, gearCount, quantity);
+    }
+    public boolean addSportBackpack(String name, String description, double pricePerDay, int gearCount, int quantity) {
+        return equipmentService.addSportBackpack(name, description, pricePerDay, gearCount, quantity);
     }
 }
