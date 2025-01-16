@@ -30,7 +30,7 @@ public class RentView {
 
 
     public void displayRentForm() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date[] dates = new Date[2];
         Date startDate;
         Date endDate;
         int equipmentId;
@@ -54,61 +54,48 @@ public class RentView {
                     System.out.print("Podaj ID sprzętu do wypożyczenia: ");
                     equipmentId = scanner.nextInt();
 
+                    dates = getRentalDates();
+                    startDate = dates[0];
+                    endDate = dates[1];
 
-                    System.out.print("Podaj datę rozpoczęcia wypożyczenia (yyyy-MM-dd): ");
-                    String startDateInput = scanner.next();
-                    System.out.print("Podaj datę zakończenia wypożyczenia (yyyy-MM-dd): ");
-                    String endDateInput = scanner.next();
+                    overlappingRental = controllerFacade.checkOverlappingRental(equipmentId, startDate, endDate);
 
-                    try {
-                        startDate = dateFormat.parse(startDateInput);
-                        endDate = dateFormat.parse(endDateInput);
-                        if (endDate.before(startDate)) {
-                            System.out.println("Data zakończenia musi być późniejsza niż data rozpoczęcia.");
-                            continue;
-                        }
+                    if (overlappingRental != null) {
+                        // Przedłużenie istniejącego wypożyczenia
+                        System.out.println("Sprzęt jest już wypożyczony w tym okresie.");
+                        System.out.print("Czy chcesz przedłużyć istniejące wypożyczenie? (tak/nie): ");
+                        confirmation = scanner.next();
 
-                        overlappingRental = controllerFacade.checkOverlappingRental(equipmentId, startDate, endDate);
+                        if (confirmation.equalsIgnoreCase("tak")) {
 
-                        if (overlappingRental != null) {
-                            // Przedłużenie istniejącego wypożyczenia
-                            System.out.println("Sprzęt jest już wypożyczony w tym okresie.");
-                            System.out.print("Czy chcesz przedłużyć istniejące wypożyczenie? (tak/nie): ");
+                            int additionalDays = controllerFacade.convertDate(endDate.getTime(), overlappingRental.getEndDate().getTime());
+                            boolean extended = controllerFacade.extendRental(overlappingRental.getId(), additionalDays);
+
+                            if (extended) {
+                                displayExtndRentSummary(additionalDays, overlappingRental.calculateCost());
+                                return;
+                            } else {
+                                displayRentFailure();
+                            }
+                        } else if (confirmation.equalsIgnoreCase("nie")) { // dodanie nowego
+
+                            displayRentSummary(equipmentId, startDate, endDate, startDate, endDate);
+
+                            System.out.print("Czy potwierdzasz wypożyczenie? (tak/nie): ");
                             confirmation = scanner.next();
 
                             if (confirmation.equalsIgnoreCase("tak")) {
-
-                                int additionalDays = controllerFacade.convertDate(endDate.getTime(), overlappingRental.getEndDate().getTime());
-                                boolean extended = controllerFacade.extendRental(overlappingRental.getId(), additionalDays);
-
-                                if (extended) {
-                                    displayExtndRentSummary(additionalDays, overlappingRental.calculateCost());
+                                if (controllerFacade.rentEquipment(equipmentId, startDate, endDate)) {
+                                    System.out.println("Wypożyczenie zakończone sukcesem!");
                                     return;
                                 } else {
                                     displayRentFailure();
                                 }
-                            } else if (confirmation.equalsIgnoreCase("nie")) { // dodanie nowego
-
-                                displayRentSummary(equipmentId, startDate, endDate, startDate, endDate);
-
-                                System.out.print("Czy potwierdzasz wypożyczenie? (tak/nie): ");
-                                confirmation = scanner.next();
-
-                                if (confirmation.equalsIgnoreCase("tak")) {
-                                    if (controllerFacade.rentEquipment(equipmentId, startDate, endDate)) {
-                                        System.out.println("Wypożyczenie zakończone sukcesem!");
-                                        return;
-                                    } else {
-                                        displayRentFailure();
-                                    }
-                                } else {
-                                    System.out.println("Anulowano wypożyczenie.");
-                                }
+                            } else {
+                                System.out.println("Anulowano wypożyczenie.");
                             }
-                            return;
                         }
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
+                        return;
                     }
                 }
             } else {
@@ -225,6 +212,27 @@ public class RentView {
             lp++;
         }
     }
+
+
+    private Date[] getRentalDates() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            System.out.print("Podaj datę rozpoczęcia wypożyczenia (yyyy-MM-dd): ");
+            Date startDate = dateFormat.parse(scanner.next());
+            System.out.print("Podaj datę zakończenia wypożyczenia (yyyy-MM-dd): ");
+            Date endDate = dateFormat.parse(scanner.next());
+
+            if (endDate.before(startDate)) {
+                System.out.println("Data zakończenia musi być późniejsza niż data rozpoczęcia.");
+                return null;
+            }
+            return new Date[]{startDate, endDate};
+        } catch (ParseException e) {
+            System.out.println("Nieprawidłowy format daty. Spróbuj ponownie.");
+            return null;
+        }
+    }
+
 
 }
 
