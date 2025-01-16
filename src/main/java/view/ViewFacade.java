@@ -30,6 +30,7 @@ public class ViewFacade {
             System.out.println("4. Wypożyczanie sprzętu");
             System.out.println("5. Przedłużanie wypożyczenia");
             System.out.println("6. Przeglądanie historii wypożyczeń");
+            System.out.println("6. Dodawanie sprzętu");
             System.out.println("7. Zarządzanie sprzętem");
             System.out.println("8. Zarządzanie użytkownikami");
             System.out.println("0. Wyjście");
@@ -44,8 +45,9 @@ public class ViewFacade {
                 case 4 -> rentView.displayRentForm();
                 case 5 -> rentView.displayHistoryAndExtendRental();
                 case 6 -> rentView.displayUserRentalHistory();
-                case 7 -> equipmentView.displayEquimentManagement();
-                case 8 -> userView.displayUserManagement();
+                case 7 -> equipmentView.displayAddEquipmentForm();
+                case 8 -> equipmentView.displayEquimentManagement();
+                case 9 -> userView.displayUserManagement();
                 case 0 -> {
                     System.out.println("Zamykanie aplikacji...");
                     running = false;
