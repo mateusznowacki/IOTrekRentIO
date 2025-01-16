@@ -35,7 +35,7 @@ public class Main {
         EquipmentView equipmentView = new EquipmentView(controllerFacade, viewFacade);
         //ExtendRentalView extendRentalView = new ExtendRentalView(controllerFacade);
       //  EquipmentDetailsView equipmentDetailsView = new EquipmentDetailsView();
-        RentView rentView = new RentView(controllerFacade);
+        RentView rentView = new RentView(controllerFacade, viewFacade);
 
         viewFacade.setAddEquipmentView(equipmentView);
         viewFacade.setEquipmentCatalogView(equipmentCatalogView);
@@ -43,6 +43,7 @@ public class Main {
        // viewFacade.setExtendRentalView(extendRentalView);
        // viewFacade.setEquipmentDetailsView(equipmentDetailsView);
         viewFacade.setUserAuthView(userView);
+
 
 
         // Wywołanie menu głównego

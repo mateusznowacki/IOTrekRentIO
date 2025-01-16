@@ -170,4 +170,12 @@ public class ModelFacade {
     public boolean returnEquipment(int rentalId) {
         return rentalService.returnEquipment(rentalId);
     }
+
+    public boolean checkNotEmptyEquipmentList() {
+        return equipmentService.checkNotEmptyEquipmentList();
+    }
+
+    public int convertDate(long time, long time1) {
+        return rentalService.convertDate(time, time1);
+    }
 }

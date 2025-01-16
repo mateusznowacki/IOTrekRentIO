@@ -138,4 +138,8 @@ public class EquipmentService {
         storage.getEquipments().add(backpack);
         return true;
     }
+
+    public boolean checkNotEmptyEquipmentList() {
+        return storage.getEquipments().size() > 0;
+    }
 }

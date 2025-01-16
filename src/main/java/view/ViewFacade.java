@@ -89,4 +89,8 @@ public class ViewFacade {
     public void displayAllRentals() {
         rentView.displayAllRentals();
     }
+
+    public void displayAvailableEquipmentCatalogue() {
+        equipmentCatalogView.displayAvailableEquipmentCatalogue();
+    }
 }

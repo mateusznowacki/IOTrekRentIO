@@ -146,4 +146,8 @@ public class RentalService {
         rental.getEquipment().setAvailable(true);
         return true;
     }
+
+    public int convertDate(long time, long time1) {
+       return  (int) ((time - time1) / (1000 * 60 * 60 * 24));
+    }
 }

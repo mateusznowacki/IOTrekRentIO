@@ -17,7 +17,7 @@ public class EquipmentCatalogView {
         this.scanner = new Scanner(System.in);
     }
 
-    public void displayEquipmentWithId(){
+    public void displayEquipmentWithId() {
         List<Equipment> availableEquipment = controllerFacade.getAvailableEquipment();
 
         if (availableEquipment.isEmpty()) {
@@ -61,7 +61,7 @@ public class EquipmentCatalogView {
                 case 2 -> {
                     System.out.println("Powrót do menu głównego...");
                     running = false;
-                   return;
+                    return;
                 }
                 default -> System.out.println("Nieprawidłowa opcja. Spróbuj ponownie.");
             }
@@ -81,4 +81,15 @@ public class EquipmentCatalogView {
             }
         }
     }
+
+    public void displayAvailableEquipmentCatalogue() {
+        List<Equipment> availableEquipment = controllerFacade.getAvailableEquipment();
+        System.out.println("\nKatalog dostępnego sprzętu:");
+        for (Equipment equipment : availableEquipment) {
+            System.out.println("ID: " + equipment.getId() +
+                    ", Nazwa: " + equipment.getName() +
+                    ", Cena za dobę: " + equipment.getPricePerDay());
+        }
+    }
 }
+
