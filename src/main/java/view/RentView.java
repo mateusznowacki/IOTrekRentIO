@@ -114,8 +114,8 @@ public class RentView {
                         } else {
                             displayCanceledRentInfo();
                         }
-
                     }
+                    return;
                 }
             } else {
                 System.out.println("Nieprawidłowy wybór, spróbuj ponownie.");
