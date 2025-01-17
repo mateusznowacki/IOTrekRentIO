@@ -12,12 +12,14 @@ import java.util.Scanner;
 public class RentView {
     private final ControllerFacade controllerFacade;
     private ViewFacade viewFacade;
+    private EquipmentCatalogView equipmentCatalogView;
     private final Scanner scanner;
 
-    public RentView(ControllerFacade controllerFacade, ViewFacade viewFacade) {
+    public RentView(ControllerFacade controllerFacade, ViewFacade viewFacade, EquipmentCatalogView e) {
         this.controllerFacade = controllerFacade;
         this.scanner = new Scanner(System.in);
         this.viewFacade = viewFacade;
+        this.equipmentCatalogView = e;
     }
 
     private int getRentOrExitChoice() {
@@ -43,14 +45,12 @@ public class RentView {
             if (choice == 2) {
                 System.out.println("Powrót do menu głównego...");
                 return;
-            }
-
-            if (choice == 1) {
-                if (!controllerFacade.checkNotEmptyEquipmentList()) {
+            } else if (choice == 1) {
+                if (controllerFacade.checkNotEmptyEquipmentList() == false) {
                     System.out.println("Brak dostępnego sprzętu do wypożyczenia.");
                     return;
                 } else {
-                    viewFacade.displayAvailableEquipmentCatalogue();
+                    equipmentCatalogView.displayAvailableEquipmentCatalogue();
                     System.out.print("Podaj ID sprzętu do wypożyczenia: ");
                     equipmentId = scanner.nextInt();
 
@@ -71,37 +71,64 @@ public class RentView {
                             int additionalDays = controllerFacade.convertDate(endDate.getTime(), overlappingRental.getEndDate().getTime());
                             boolean extended = controllerFacade.extendRental(overlappingRental.getId(), additionalDays);
 
-                            if (extended) {
+                            if (extended == true) {
                                 displayExtndRentSummary(additionalDays, overlappingRental.calculateCost());
                                 return;
                             } else {
                                 displayRentFailure();
                             }
-                        } else if (confirmation.equalsIgnoreCase("nie")) { // dodanie nowego
+                        } else { // dodanie nowego
 
-                            displayRentSummary(equipmentId, startDate, endDate, startDate, endDate);
+                            displayRentSummary(equipmentId, startDate, endDate);
 
                             System.out.print("Czy potwierdzasz wypożyczenie? (tak/nie): ");
                             confirmation = scanner.next();
 
                             if (confirmation.equalsIgnoreCase("tak")) {
-                                if (controllerFacade.rentEquipment(equipmentId, startDate, endDate)) {
-                                    System.out.println("Wypożyczenie zakończone sukcesem!");
+                                boolean success = controllerFacade.rentEquipment(equipmentId, startDate, endDate);
+                                if (success == true) {
+                                    displaySuccessRentInfo();
                                     return;
                                 } else {
                                     displayRentFailure();
                                 }
                             } else {
-                                System.out.println("Anulowano wypożyczenie.");
+                                displayCanceledRentInfo();
                             }
                         }
                         return;
+                    } else {
+                        displayRentSummary(equipmentId, startDate, endDate);
+
+                        System.out.print("Czy potwierdzasz wypożyczenie? (tak/nie): ");
+                        confirmation = scanner.next();//
+
+                        if (confirmation.equalsIgnoreCase("tak")) {
+                            boolean success = controllerFacade.rentEquipment(equipmentId, startDate, endDate);
+                            if (success == true) {
+                                displaySuccessRentInfo();
+                                return;
+                            } else {
+                                displayRentFailure();
+                            }
+                        } else {
+                            displayCanceledRentInfo();
+                        }
+
                     }
                 }
             } else {
                 System.out.println("Nieprawidłowy wybór, spróbuj ponownie.");
             }
         }
+    }
+
+    private static void displaySuccessRentInfo() {
+        System.out.println("Wypożyczenie zakończone sukcesem!");
+    }
+
+    private static void displayCanceledRentInfo() {
+        System.out.println("Anulowano wypożyczenie.");
     }
 
     private void displayRentFailure() {
@@ -112,7 +139,7 @@ public class RentView {
         System.out.println("Wypożyczenie zostało przedłużone o " + additionalDays + " dni. Jego całkowity koszt to " + price + " PLN.");
     }
 
-    private void displayRentSummary(int equipmentId, Date startDate, Date endDate, Date startDate1, Date endDate1) {
+    private void displayRentSummary(int equipmentId, Date startDate, Date endDate) {
         double cost = controllerFacade.calculateRentalCost(equipmentId, startDate, endDate);
         System.out.println("Całkowity koszt wypożyczenia: " + cost + " PLN");
 
