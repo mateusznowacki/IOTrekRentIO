@@ -1,6 +1,7 @@
 package model;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
@@ -33,6 +34,7 @@ class RentalTest {
     }
 
     @Test
+    @Order(1)
     void extendRental() {
         int additionalDays = 3;
 
@@ -49,6 +51,7 @@ class RentalTest {
     }
 
     @Test
+    @Order(2)
     void calculateCost() {
         // Obliczamy koszt
         double cost = rental.calculateCost();
@@ -60,6 +63,7 @@ class RentalTest {
     }
 
     @Test
+    @Order(3)
     void getIdCounter() {
         // Ustawiamy licznik ID
         Rental.setIdCounter(100);
@@ -67,39 +71,47 @@ class RentalTest {
     }
 
     @Test
+    @Order(4)
     void setIdCounter() {
         Rental.setIdCounter(200);
         assertEquals(200, Rental.getIdCounter(), "Licznik ID powinien wynosić 200 po zmianie");
     }
 
+
     @Test
+    @Order(5)
     void getId() {
         assertEquals(1, rental.getId(), "ID wypożyczenia powinno wynosić 1");
     }
 
     @Test
+    @Order(6)
     void setId() {
         rental.setId(2);
         assertEquals(2, rental.getId(), "ID wypożyczenia powinno wynosić 2 po zmianie");
     }
 
     @Test
+    @Order(7)
     void getUserId() {
         assertEquals(1, rental.getUserId(), "ID użytkownika powinno wynosić 1");
     }
 
     @Test
+    @Order(8)
     void setUserId() {
         rental.setUserId(2);
         assertEquals(2, rental.getUserId(), "ID użytkownika powinno wynosić 2 po zmianie");
     }
 
     @Test
+    @Order(9)
     void getEquipment() {
         assertEquals(equipment, rental.getEquipment(), "Sprzęt powinien być poprawnie ustawiony");
     }
 
     @Test
+    @Order(10)
     void setEquipment() {
         Equipment newEquipment = new Equipment("Tent", "Camping Tent", 30.0, 5);
         rental.setEquipment(newEquipment);
@@ -107,11 +119,13 @@ class RentalTest {
     }
 
     @Test
+    @Order(11)
     void getStartDate() {
         assertNotNull(rental.getStartDate(), "Data rozpoczęcia nie powinna być null");
     }
 
     @Test
+    @Order(12)
     void setStartDate() {
         Date newStartDate = new Date();
         rental.setStartDate(newStartDate);
@@ -119,11 +133,13 @@ class RentalTest {
     }
 
     @Test
+    @Order(13)
     void getEndDate() {
         assertNotNull(rental.getEndDate(), "Data zakończenia nie powinna być null");
     }
 
     @Test
+    @Order(14)
     void setEndDate() {
         Date newEndDate = new Date();
         rental.setEndDate(newEndDate);
@@ -131,11 +147,13 @@ class RentalTest {
     }
 
     @Test
+    @Order(15)
     void getCostStrategy() {
         assertEquals(costStrategy, rental.getCostStrategy(), "Strategia kosztowa powinna być poprawna");
     }
 
     @Test
+    @Order(16)
     void setCostStrategy() {
         RentalCostStrategy newStrategy = new EmployeeDiscountCostStrategy();
         rental.setCostStrategy(newStrategy);
@@ -143,6 +161,7 @@ class RentalTest {
     }
 
     @Test
+    @Order(17)
     void getCost() {
         rental.calculateCost();
         assertTrue(rental.getCost() > 0, "Koszt powinien być większy niż 0 po obliczeniu");
